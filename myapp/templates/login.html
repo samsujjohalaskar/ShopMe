@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+
+
+{% block content %}
+<div class="container">
+ <div class="row my-3">
+  <div class="col-sm-6 offset-sm-3">
+   <h3>Login</h3>
+   <form action="" method="post" novalidate class="shadow p-5">
+
+        {% csrf_token %}
+
+        {% for f in form %}
+            <div class="form-group">
+                {{f.label_tag}} {{f}}
+                <small class="text-danger">
+                    {{f.errors|striptags}}
+                </small>
+                <br>
+            </div>
+        {% endfor %}
+
+        <small>
+            <a class="text-danger text-decoration-underline" href="changepassword">
+                Forget Password ?
+            </a>
+        </small>
+        <br>
+        <input type="submit" class="btn btn-primary mt-4" value="Login">
+        <br>
+        <br>
+        <div class="text-center text-dark fw-bold">
+            <small>
+                New Here?
+                <a href="registration" class="text-primary text-decoration-underline">
+                    Create an Account
+                </a>      
+            </small>
+        </div> 
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="alert alert-danger my-3">
+                    {{error}}
+                </p>    
+            {% endfor %}
+        {% endif %}       
+   </form>
+  </div>
+ </div>
+</div>
+{% endblock content %}

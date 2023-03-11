@@ -1,0 +1,122 @@
+{% extends 'base.html' %} {% load static %} 
+
+{% block title %}Home{% endblock title %}
+
+{% comment %} {% block category %}
+
+{% for c in product %}
+<li><a class="dropdown-item" href="#">{{c.category}}</a></li>
+{% endfor %}
+
+{% endblock category %} {% endcomment %}
+
+{% block search %}
+<form class="d-flex">
+  <input
+    class="form-control me-3"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+  />
+  <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+{% endblock search %}
+
+    {% block filter %}
+    <section class="text-gray-600 body-font">
+      <div class="container px-5 py-5 mx-auto">
+
+        <form class="row g-3" action="/" method="post">
+          {% csrf_token %}
+          <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <label for="price" class="col-form-label">Select Price Range</label>
+            </div>
+            <div class="col-auto">
+              <select id="inputState" class="form-select" name="price_filter">
+                <option value="0" selected>All</option>
+                <option value="1" >0 - 1000</option>
+                <option value="2">1001 - 5000</option>
+                <option value="3">5001 - 10000</option>
+                <option value="4">10001 and above </option>
+
+              </select>
+            </div>
+            <div class="col-auto">
+              <label for="brand" class="col-form-label">Select Brand</label>
+            </div>
+            <div class="col-auto">
+              <select id="inputState" class="form-select" name="brand_filter">
+                <option value="0" selected>all</option>
+                <option value="1">brand1</option>
+                <option value="2">brand2</option>
+                <option value="3">brand3</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label for="average_review" class="col-form-label">Average Customer Review</label>
+            </div>
+            <div class="col-auto">
+              <select id="inputState" class="form-select" >
+                <option>1</option>
+                <option>2</option>
+                <option selected>3</option>
+                <option>4</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label for="discount" class="col-form-label">Product Discount (%)</label>
+            </div>
+            <div class="col-auto">
+              <select id="inputState" class="form-select" name="discount_filter">
+                <option value="0" selected>All</option>
+                <option value="1" >10</option>
+                <option value="2">20</option>
+                <option value="3">30</option>
+                <option value="4">30 above</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label for="c_category" class="col-form-label">Choose Category</label>
+            </div>
+            <div class="col-auto">
+              <select id="inputState" class="form-select" name="category_filter">
+                <option value="0" selected>All</option>
+                <option value="1">Clothing</option>
+                <option value="2">Electronics</option>
+                <option value="3">Food</option>
+                <option value="4">Grocery</option>
+                <option value="5">Stationary</option>
+                <option value="6">Footwear</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+          </div>          
+        </form>
+      </div>
+    </section>
+    {% endblock filter %}
+
+{% block content %}
+<section class="text-gray-600 body-font">
+  <div class="container px-4 py-1 mx-auto"  >
+    <div class="flex flex-wrap -m-4">
+    {% for p in products %}
+      <div  class="lg:w-1/4 md:w-1/2 p-4 w-full">
+        <a href="{% url 'productdetail' p.id %}" class="block relative h-48 rounded overflow-hidden">
+          <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://dummyimage.com/420x260">
+        </a>
+        <div class="mt-4">
+          <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{p.category}} | {{p.brand}}</h3>
+          <h2 class="text-gray-900 title-font text-lg font-medium">{{p.name}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{p.get_rating|floatformat:1}}/5</h2>
+          <p class="mt-1"><h3>₹ {{p.price}} <b>Now only at ₹ {{p.discounted_price}}</b></h3></p>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock content %}
+

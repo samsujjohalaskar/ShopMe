@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Product Detail{% endblock title %}
+
+{% block content %}
+
+<section class="text-gray-600 body-font overflow-hidden">
+    <div class="container px-5 py-24 mx-auto">
+      <h1 class="text-gray-900 text-3xl title-font font-medium mb-1" style="padding-left: 5em;padding-bottom: 1em;">{{product.category}}</h1>
+      <div class="lg:w-4/5 mx-auto flex flex-wrap">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" style="width:500px">
+          <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                  aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                  aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                  aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner">
+              {% for object in productImages%}
+              <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                  <img src="{{object.images.url}}" style="height:650px;" class="testi-overly d-block w-100" alt="sliderImg">
+                  <div class="carousel-caption d-none d-md-block">
+                      <h1 class="animate__animated
+                      {% if forloop.counter0 == 0 %}
+                      animate__fadeInDown
+                      {% endif %}
+                      {% if forloop.revcounter == 1 %}
+                      animate__bounce
+                      {% endif %}
+                      {% if forloop.revcounter == 2 %}
+                      animate__fadeInRight
+                      {% endif %}"></h1>
+                      <h3 class="animate__animated animate__zoomIn"></h3>
+                      <a href="" class="button animate__animated animate__zoomIn mt-3 py-3 px-5 btn font-weight-bold"></a>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+        </div>
+        <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+          <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{product.name}}</h1>
+          <h1 class="text-gray-900 text-2xl title-font font-medium mb-1">{{product.get_rating|floatformat:1}}/5</h1>
+          <h1 class="text-lightblue-900 text-3xl title-font font-medium mb-1">{{product.brand}}</h1>
+          <div class="flex mb-4">
+          <h3 class="text-gray-900 text-xl title-font font-medium mb-1">₹ {{product.price}} (original price)</h3>
+          </div>
+          <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
+            <div class="flex ml-6 items-center">
+              <span class="mr-3">Quantity</span>
+              <div class="relative">
+                <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+                <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="flex">
+            <span class="title-font font-medium text-2xl text-gray-900">₹ {{product.discounted_price}}   (Flat {{ discount_percentage}}% Off)</span>
+            <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-3 focus:outline-none hover:bg-indigo-600 rounded" disabled>Buy Now</button>
+            <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-3 focus:outline-none hover:bg-indigo-600 rounded">Add to Cart</button>
+          </div>
+          </br>
+          </br>
+          <h3 class="text-blue-900 text-xl title-font font-medium mb-1">● {{product.availability}}</h3>
+          <h3 class="text-green-900 text-xl title-font font-medium mb-1">● Will be Delivered before {{product.delivery_time}}</h3>
+        </div>
+        <hr>
+        <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+          <h1 class="text-gray-900 text-xl title-font font-medium mb-1">Customer Ratings &amp; Reviews:</h1>
+          <div class="notification space-below">
+            {% if request.user.is_authenticated %}
+              <form method="post" action="/productdetail/{{pk}}">
+                {% csrf_token %}
+                <div class="flex ml-6 items-center">
+                  <span class="mr-3">Rate This Product</span>
+                  <div class="relative">
+                    <select name="stars" class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3" selected>3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                    <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6"></path>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Content</label>
+                  <textarea class="textarea" rows="2" name="content" required></textarea>
+                </div>
+                <div class="field">
+                  <div class="control">
+                    <button type="submit" class="button is-success btn btn-primary btn-sm my-3" >Submit</button>
+                  </div>
+                </div>
+              </form>  
+            {% else %}
+              <p>Please<a href="{% url 'login' %}" > LOGIN </a>to add Reviews</p>          
+            {% endif %}
+        </div>
+          <div class="reviews-wrapper">
+              {% for review in product.reviews.all %}
+                  <div class="notification space-below">
+                      <p>
+                         <p>{{review.content}}</p>
+                        <strong>{{review.user }}:</strong>
+                        <strong>Rated</strong> {{review.stars }}/5
+                        <strong>On</strong> {{review.date_added|date:"d-M-Y"}}
+                      </p>
+                      <br>
+                  </div>
+                {%empty%}  
+                    <div class="notification space-below">
+                        No Reviews Yet.....
+                    </div>
+              {% endfor %}
+          </div>
+        </div>  
+      </div>
+    </div>
+  </section>
+  
+{% endblock content %}
