@@ -66,7 +66,7 @@ class Customer(models.Model):
         
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    # images = models.ImageField(upload_to='product')
+    images = models.ImageField(upload_to='product',default="")
     price = models.FloatField()
     brand = models.CharField(max_length=50)
     category = models.CharField(choices=category_choices,max_length=20)
@@ -74,6 +74,11 @@ class Product(models.Model):
     discount_percentage = models.FloatField()
     delivery_time = models.DateField()
     availability = models.CharField(max_length=20)
+
+    @property
+    def images_url(self):
+        if self.images and hasattr(self.images, 'url'):
+            return self.images.url
 
     @property
     def discount_percentage(self):
