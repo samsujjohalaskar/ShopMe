@@ -30,7 +30,7 @@
         <div class="text-center text-primary fw-bold">
           <small class="text-dark"
             >Already have an account ?
-            <a href="{% url 'login' %}" class="text-primary">Login Here </a>
+            <a href="{% url 'myapp:login' %}" class="text-primary">Login Here </a>
           </small>
         </div>
         {% if form.non_field_errors %} {% for e in form.non_field_errors %}

@@ -36,16 +36,16 @@
                 {% block search %}{% endblock search %}
               </li>
               <li class="nav-item dropdown mx-2">
-                <a class="nav-link dropdown-toggle text-dark" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expandable="false" href="#">Sam</a>
+                <a class="nav-link dropdown-toggle text-dark" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expandable="false" href="#">Dashboard</a>
                 <ul class="dropdown-menu" aia-labelledby="profileDropdown">
                   <li>
-                    <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                    <a class="dropdown-item" href="{% url 'myapp:profile' %}">Profile</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{% url 'passwordchange' %}">Change Password</a>
+                    <a class="dropdown-item" href="{% url 'myapp:passwordchange' %}">Change Password</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'myapp:logout' %}">Logout</a>
                   </li>
                 </ul>  
                   <li class="nav-item mx-2">
