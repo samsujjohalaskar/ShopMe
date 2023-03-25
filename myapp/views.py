@@ -2,8 +2,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from flask import redirect
-from myapp.forms import CustomerRegistrationForm,FilterForm, LoginForm
-from myapp.models import Product, productImage,ProductReview
+from myapp.forms import CustomerProfileForm, CustomerRegistrationForm,FilterForm, LoginForm
+from myapp.models import Customer, Product, productImage,ProductReview
 from django.contrib import messages
 
 def home(request):
@@ -128,8 +128,8 @@ class CustomerRegistrationView(View):
             form.save()
         return render(request,'registration.html',{'form':form})
 
-def profile(request):
-    return render(request, 'profile.html')
+# def profile(request):
+#     return render(request, 'profile.html')
 
 def make_filter(request):
     if request.method == 'POST':
@@ -138,7 +138,28 @@ def make_filter(request):
             return HttpResponseRedirect('filter/')
     else:
         form = FilterForm()
-    return render(request,'home.html',{'form':form})    
+    return render(request,'home.html',{'form':form})   
+
+
+class ProfileView(View):
+    def get(self,request):
+        form = CustomerProfileForm()
+        return render(request,'profile.html',{'form':form,'active':'btn-primary'})
+
+    def post(self,request):
+        form = CustomerProfileForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            name = form.cleaned_data['name']
+            locality = form.cleaned_data['locality']
+            hometown = form.cleaned_data['hometown']
+            zipcode = form.cleaned_data['zipcode']
+            contact = form.cleaned_data['contact']
+            state = form.cleaned_data['state']
+            data = Customer(user=user,name=name,locality=locality,hometown=hometown,zipcode=zipcode,contact=contact,state=state)
+            data.save()
+            messages.success(request,'Your Profile Updated Successfully.')
+        return render(request,'profile.html',{'form':form,'active':'btn-primary'}) 
 
 # class ProductView(View):
 #     def get(self, request):
@@ -166,7 +187,8 @@ def add_to_cart(request):
 
 
 def address(request):
-    return render(request, 'address.html')
+    data = Customer.objects.filter(user=request.user)
+    return render(request, 'address.html',{'data':data,'active':'btn-primary'})
 
 
 def login(request):

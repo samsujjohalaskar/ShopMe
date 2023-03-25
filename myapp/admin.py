@@ -5,7 +5,7 @@ from .models import Customer,Product,Cart, productImage,ProductReview
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-     list_display = ['id','user','name','locality','city','zipcode','state']
+     list_display = ['id','user','name','locality','hometown','zipcode','contact','state']
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):

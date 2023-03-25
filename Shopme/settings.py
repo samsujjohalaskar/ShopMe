@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'Shopme.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ECommerceDB',
+        'NAME': 'ShopMeDB',
         'USER':'postgres',
         'PASSWORD':'mypassword',
         'HOST':'localhost',

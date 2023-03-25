@@ -10,6 +10,8 @@ app_name = 'myapp'
 urlpatterns = [
     path('', views.home,name='home'),
 
+    path('filter/', views.make_filter, name='filter'),
+
     path('productdetail/<int:pk>', views.productdetail, name='productdetail'),
     
     path('registration/', views.CustomerRegistrationView.as_view(), name='customerregistration'),
@@ -22,8 +24,6 @@ urlpatterns = [
     
     path('passwordchangedone/',auth_views.PasswordChangeDoneView.as_view(template_name='passwordchangedone.html'),name='passwordchangedone'),
 
-    path('filter/', views.make_filter, name='filter'),
-
     path ('password-reset/',auth_views.PasswordResetView.as_view(template_name='password_reset.html',email_template_name = 'password_reset_email.html',success_url=reverse_lazy('myapp:password_reset_done'),form_class=MyPasswordResetForm),name='password_reset'),
 
     path ('password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),name='password_reset_done'),
@@ -32,12 +32,13 @@ urlpatterns = [
 
     path ('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),name='password_reset_complete'),
 
+    path('profile/', views.ProfileView.as_view(), name='profile'),
+
     # path('cart/', views.add_to_cart, name='add-to-cart'),
-    path('profile/', views.profile, name='profile'),
     # path('changepassword/', views.change_password, name='changepassword'),
 
     # path('filter/<slug:data>', views.filter, name='filter-data'),
 
-    # path('checkout/', views.checkout, name='checkout'),
+    path('address/', views.address, name='address'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

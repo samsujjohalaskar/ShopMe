@@ -57,13 +57,14 @@ class Customer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     locality = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
+    hometown = models.CharField(max_length=50)
     zipcode = models.IntegerField()
+    contact = models.CharField(max_length=12)
     state = models.CharField(choices=state_choices, max_length=50)
 
     def __str__(self):
         return str(self.id)
-        
+           
 class Product(models.Model):
     name = models.CharField(max_length=100)
     images = models.ImageField(upload_to='product',default="")
@@ -136,8 +137,9 @@ class Filter(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     locality = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
+    hometown = models.CharField(max_length=50)
     zipcode = models.IntegerField()
+    contact = models.CharField(max_length=12)
     state = models.CharField(choices=state_choices, max_length=50)
 
     def __str__(self):
