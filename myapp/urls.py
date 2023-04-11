@@ -34,7 +34,15 @@ urlpatterns = [
 
     path('profile/', views.ProfileView.as_view(), name='profile'),
 
-    # path('cart/', views.add_to_cart, name='add-to-cart'),
+    path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
+
+    path('cart/', views.show_cart, name='showcart'),
+
+    path('pluscart/',views.plus_cart),
+    path('minuscart/',views.minus_cart),
+    path('removecart/',views.remove_cart),
+
+    path('placeorder/',views.place_order,name='placeorder'),
     # path('changepassword/', views.change_password, name='changepassword'),
 
     # path('filter/<slug:data>', views.filter, name='filter-data'),

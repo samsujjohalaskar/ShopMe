@@ -44,10 +44,10 @@
           <h1 class="text-gray-900 text-2xl title-font font-medium mb-1">{{product.get_rating|floatformat:1}}/5</h1>
           <h1 class="text-lightblue-900 text-3xl title-font font-medium mb-1">{{product.brand}}</h1>
           <div class="flex mb-4">
-          <h3 class="text-gray-900 text-xl title-font font-medium mb-1 text-decoration-line-through">₹ {{product.price}} (original price)</h3>
+            <h3 class="text-gray-900 text-xl title-font font-medium mb-1 text-decoration-line-through">₹ {{product.price}} (original price)</h3>
           </div>
-          <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-            <div class="flex ml-6 items-center">
+          {% comment %} <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5"> {% endcomment %}
+            {% comment %} <div class="flex ml-6 items-center">
               <span class="mr-3">Quantity</span>
               <div class="relative">
                 <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
@@ -62,12 +62,17 @@
                   </svg>
                 </span>
               </div>
-            </div>
-          </div>
+            </div> {% endcomment %}
+          {% comment %} </div> {% endcomment %}
           <div class="flex">
             <span class="title-font font-medium text-2xl text-gray-900">₹ {{product.discounted_price}}   (Flat {{ discount_percentage}}% Off)</span>
-            <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-3 focus:outline-none hover:bg-indigo-600 rounded" disabled>Buy Now</button>
-            <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-3 focus:outline-none hover:bg-indigo-600 rounded">Add to Cart</button>
+            <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-2 mx-3 focus:outline-none hover:bg-indigo-600 rounded" disabled>Buy Now</button>
+            
+            <form action="/add-to-cart" >
+              <input type="hidden" name="prod_id" value={{product.id}} id="prod_id">
+              <button href="{% url 'myapp:add-to-cart' %}" type="submit" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Add to Cart</button>
+            </form>
+
           </div>
           </br>
           </br>

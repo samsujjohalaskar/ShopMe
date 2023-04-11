@@ -1,88 +1,243 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 {% load static %}
-{% block title %}Cart{% endblock title %}
-{% block main-content %}
-<div class="container my-5">
- <div class="row">
-  <h1 class="text-center mb-5">Shopping Cart</h1>
-  <div class="col-sm-8">
-  <div class="card">
-   <div class="card-body">
-    <h3>Cart</h3>
-    <div class="row">
-     <div class="col-sm-3 text-center align-self-center"><img src="{% static 'app/images/product/1.jpg'%}" alt="" srcset="" class="img-fluid img-thumbnail shadow-sm" height="150" width="150"> </div>
-     <div class="col-sm-9">
-      <div>
-       <h5>Product 1</h5>
-       <p class="mb-2 text-muted small">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum quas, nihil vel velit sed, quos consequatur maiores odio libero eius est in mollitia quo minus dolorum culpa consectetur, ipsam unde!</p>
-       <div class="my-3">
-        <label for="quantity">Quantity:</label>
-        <a class="minus-cart btn"><i class="fas fa-minus-square fa-lg"></i></a>
-          <span id="quantity">3</span>
-        <a class="plus-cart btn"><i class="fas fa-plus-square fa-lg"></i></a>
-       </div> 
-       <div class="d-flex justify-content-between">
-        <a href="#" class="btn btn-sm btn-secondary mr-3">Remove item </a>
-        <p class="mb-0"><span><strong>Rs. 110.00</strong></span></p>
-       </div>
-      </div>
-     </div>
-    </div>
-    <hr class="text-muted">
-    <div class="row my-5">
-     <div class="col-sm-3 text-center align-self-center"> <img src="{% static 'app/images/product/2.jpg'%}" alt="" srcset="" class="img-fluid img-thumbnail shadow-sm" height="150" width="150"></div>
-     <div class="col-sm-9"> 
-      <div>
-       <h5>Product 2</h5>
-       <p class="mb-2 text-muted small">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio corrupti repudiandae quas tenetur? Vel harum iste impedit ad cupiditate sint soluta consequuntur sed, enim, eligendi labore molestiae! Mollitia, ad exercitationem!</p>
-       <div class="my-3">
-        <label for="quantity">Quantity:</label>
-        <a class="minus-cart btn"><i class="fas fa-minus-square fa-lg"></i></a>
-          <span id="quantity">2</span>
-        <a class="plus-cart btn"><i class="fas fa-plus-square fa-lg"></i></a>
-       </div> 
-       <div class="d-flex justify-content-between">
-        <a href="#" class="btn btn-sm btn-secondary mr-3">Remove item </a>        
-        <p class="mb-0"><span><strong>Rs. 320.00</strong></span></p>
-       </div>
-      </div>
-     </div>
-    </div>
-   </div>
-   </div>
-  </div>
+{% block title %}Cart{% endblock title %} 
+{% block quantityCSS %}
+#quan{
+  display: flex;
+}
+#quan a{
+  border: 0.5 solid black;
+  box-shadow: 0 0 3px black;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#quan span{
+  border: 0.5 solid black;
+  box-shadow: 0 0 3px black;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.minus{
+  width: 25px;
+  height: 25px;
+  font-size:25px;
+  color:white;
+  background-color: rgb(214, 43, 57);
+  cursor:pointer;
+}
+.plus{
+  width: 25px;
+  height: 25px;
+  font-size:25px;
+  color:white;
+  background-color: green;
+  cursor:pointer;
+}
+.quant{
+  width: 25px;
+  height: 25px;
+}
+.remove{
+  border: 0.5 solid black;
+  box-shadow: 0 0 1px black;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left:10px;
+  width: 65px;
+  height: 25px;
+  background-color: rgb(214, 43, 57);
+}
+{% endblock quantityCSS %}
 
-  <div class="col-sm-4">
-   <div class="card">
-    <div class="card-body">
-      <h3>The Total Amount of</h3>
-      <ul class="list-group">
-       <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">Amount<span>Rs. 430.00</span></li>
-       <li class="list-group-item d-flex justify-content-between align-items-center px-0">Shipping<span>Rs. 70.00</span></li>
-       <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-        <div>
-           <strong>Total</strong> <small>(including VAT)</small>
-         </div>
-         <span><strong>Rs. 500.00</strong></span>
-       </li>
-      </ul>
-      <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-primary">Place Order</a></div>
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <h1 class="text-center mb-5 fs-3">Welcome to Your Cart Listing Page</h1>
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          {% for c in carts %}
+          <div class="row">
+            <h3>Item {{forloop.counter}}</h3>
+            <div class="col-sm-3 text-center align-self-center">
+              <img
+                src="{{c.product.images.url}}"
+                alt=""
+                srcset=""
+                class="img-fluid img-thumbnail shadow-sm"
+                height="150"
+                width="150"
+              />
+            </div>
+            <div class="col-sm-9">
+              <div>
+                <h5 class="fs-4">{{c.product.name}}</h5>
+                <p class="mb-2 text-muted fs-5">
+                  Brand: {{c.product.brand}}
+                </p>
+
+                <div class="my-3" id="quan">
+                  <label for="quantity">Quantity:</label> &nbsp&nbsp&nbsp
+                  <a class="minus" pid="{{c.product.id}}">
+                    
+                  </a>
+                  <span class="mx-2 quant" id="quantity">{{c.quantity}}</span>
+                  <a class="plus" pid="{{c.product.id}}">
+                    
+                  </a>                 
+                </div>
+                <div class="d-flex justify-content-between">                 
+                  <p class="mb-0">
+                    <span>Price: &nbsp ₹</span>
+                    <span id="price"> {{c.product.discounted_price}}</span>
+                  </p>
+                  <a id="remove" class="btn btn-sm remove-item btn-secondary mr-3" pid="{{c.product.id}}">
+                    Remove              
+                </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <hr>
+          <br>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-   </div>
+
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <h3>Price Details</h3>
+          <ul class="list-group">
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0"
+            >
+              Amount Rs.<span id = "amount"> {{amount}}</span>
+            </li>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center px-0"
+            >
+              Shipping<span>Rs. 70.00</span>
+            </li>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3"
+            >
+              <div><strong>Total</strong> <small>(including VAT)</small></div>
+              <span><strong>Rs. <strong id="totalamount">{{totalamount}}</strong></strong></span>
+            </li>
+          </ul>
+          
+          <div class="d-grid">
+            <a href="{% url 'myapp:placeorder' %}" class="btn btn-primary"
+              >Place Order</a
+            >
+          </div>
+         
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+{% endblock content %}
+
+{% block quantityJS %}
+
+{% comment %} let x = document.querySelectorAll('.minus');
+let y = document.querySelectorAll('.quantity');
+let z = document.querySelectorAll('.plus');
+let p = document.querySelectorAll('.price');
+ 
+
+for(let i=0;i<z.length;i++){
+  let price=Number(p[i].innerHTML)
+
+  z[i].addEventListener('click',function calculate(){
+     let data = y[i].innerHTML;
+      console.log(++data)
+
+      y[i].innerHTML = data;
+      p[i].innerHTML=price*data
+      console.log(p[i].innerHTML)
+
+  });
+}
+
+for(let i=0;i<z.length;i++){
   
- </div>
-</div>
-<div class="container">
- <div class="row">
-  <div class="col-sm-8">
-   <div class="card">
-    <div class="card-body">
-      <h5 class="mb-4">We accept</h5>
-      <img src="{% static 'app/images/payment.png' %}" alt="" class="img-fluid">
-    </div>
-  </div>
-  </div>
- </div>
-</div>
-{% endblock main-content %}
+  x[i].addEventListener('click',function calculate(){
+
+    
+    let data = y[i].innerHTML;
+    
+    if(data>1){
+      let price=Number(p[i].innerHTML)
+      let perPrice=price/data
+      price=price-perPrice
+      p[i].innerHTML=price
+      console.log("Price:",price)
+
+      console.log(--data)
+      y[i].innerHTML = data;
+    }
+  });
+} {% endcomment %}
+
+$('.plus').click(function(){
+  var id = $(this).attr("pid").toString();
+  var eml = this.parentNode.children[2]
+  $.ajax({
+    type:"GET",
+    url:"/pluscart",
+    data:{
+      prod_id : id
+    },
+    success:function(data){
+      eml.innerText = data.quantity
+      document.getElementById("amount").innerText = data.amount
+      document.getElementById("totalamount").innerText = data.totalamount
+    },
+  }) 
+})
+
+$('.minus').click(function(){
+  var id = $(this).attr("pid").toString();
+  var eml = this.parentNode.children[2]
+  $.ajax({
+    type:"GET",
+    url:"/minuscart",
+    data:{
+      prod_id : id
+    },
+    success:function(data){
+      eml.innerText = data.quantity
+      document.getElementById("amount").innerText = data.amount
+      document.getElementById("totalamount").innerText = data.totalamount
+    },
+  }) 
+})
+
+$('.remove-item').click(function(){
+  var id = $(this).attr("pid").toString();
+  var eml = this
+  $.ajax({
+    type:"GET",
+    url:"/removecart",
+    data:{
+      prod_id : id
+    },
+    success:function(data){
+      document.getElementById("amount").innerText = data.amount
+      document.getElementById("totalamount").innerText = data.totalamount
+      eml.parentNode.parentNode.parentNode.parentNode.remove()
+    },
+  }) 
+})
+{% endblock quantityJS %}

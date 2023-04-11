@@ -2,9 +2,10 @@
 {% load static %} 
 {% block title %}Address{% endblock title %}
 {% block content %}
+
+<h3 class="fs-4 text-center my-3">Welcome Back <span class="text-capitalize">{{request.user}}</span></h3>
 <div class="container my-5">
   <div class="row">
-    <h3>Welcome <span class="text-capitalize">{{request.user}}</span></h3>
     <div class="col-sm-2 border-end">
       <ul class="list-unstyled">
         <li class="d-grid">
