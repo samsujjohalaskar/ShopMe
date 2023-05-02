@@ -85,11 +85,11 @@
                 <div class="my-3" id="quan">
                   <label for="quantity">Quantity:</label> &nbsp&nbsp&nbsp
                   <a class="minus" pid="{{c.product.id}}">
-                    
+                    -
                   </a>
                   <span class="mx-2 quant" id="quantity">{{c.quantity}}</span>
                   <a class="plus" pid="{{c.product.id}}">
-                    
+                    +
                   </a>                 
                 </div>
                 <div class="d-flex justify-content-between">                 
@@ -99,7 +99,7 @@
                   </p>
                   <a id="remove" class="btn btn-sm remove-item btn-secondary mr-3" pid="{{c.product.id}}">
                     Remove              
-                </a>
+                  </a>
                 </div>
               </div>
             </div>
@@ -149,46 +149,6 @@
 {% endblock content %}
 
 {% block quantityJS %}
-
-{% comment %} let x = document.querySelectorAll('.minus');
-let y = document.querySelectorAll('.quantity');
-let z = document.querySelectorAll('.plus');
-let p = document.querySelectorAll('.price');
- 
-
-for(let i=0;i<z.length;i++){
-  let price=Number(p[i].innerHTML)
-
-  z[i].addEventListener('click',function calculate(){
-     let data = y[i].innerHTML;
-      console.log(++data)
-
-      y[i].innerHTML = data;
-      p[i].innerHTML=price*data
-      console.log(p[i].innerHTML)
-
-  });
-}
-
-for(let i=0;i<z.length;i++){
-  
-  x[i].addEventListener('click',function calculate(){
-
-    
-    let data = y[i].innerHTML;
-    
-    if(data>1){
-      let price=Number(p[i].innerHTML)
-      let perPrice=price/data
-      price=price-perPrice
-      p[i].innerHTML=price
-      console.log("Price:",price)
-
-      console.log(--data)
-      y[i].innerHTML = data;
-    }
-  });
-} {% endcomment %}
 
 $('.plus').click(function(){
   var id = $(this).attr("pid").toString();

@@ -80,15 +80,6 @@ def retrive_filter(filter_type, value):
 def retrive_price_filter(value):
     pass
 
-# class ProductDetailView(View):
-#     def get(self,request,pk):
-#         product = Product.objects.get(pk=pk)
-#         productImages = productImage.objects.all().filter(product_id = pk)
-#         # print(productImages)
-#         discount_percentage = ((product.price-product.discounted_price)/product.price)*100
-#         dp = ("%.1f" % discount_percentage)
-#         return render(request,'productdetail.html',{'product':product,'discount_percentage':dp, 'productImages':productImages})
-
 
 def productdetail(request,pk):
     product = Product.objects.get(pk=pk)
@@ -110,13 +101,6 @@ def productdetail(request,pk):
         return HttpResponseRedirect(request.path_info)
 
 
-# def filter(request,data = None):
-#     if data == None:
-#         brands = Product.objects.filter(brand = 'brand')
-#     elif data == 'brand1' or data == 'brand2' or data == 'brand3':
-#         brands = Product.objects.filter(brand = 'brand').filter(brand=data)
-#     return render(request, 'filter.html',{'brands':brands})
-
 class CustomerRegistrationView(View):
     def get(self,request):
         form =CustomerRegistrationForm()
@@ -125,12 +109,11 @@ class CustomerRegistrationView(View):
     def post(self,request):
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
-            messages.success(request,'Congratulations! Registration Successfull.')
+            # messages.success(request,'Congratulations! Registration Successfull.')
             form.save()
-        return render(request,'registration.html',{'form':form})
+        # return render(request,'registration.html',{'form':form})
+        return redirect('/accounts/login/')
 
-# def profile(request):
-#     return render(request, 'profile.html')
 
 def make_filter(request):
     if request.method == 'POST':
@@ -161,26 +144,6 @@ class ProfileView(View):
             data.save()
             messages.success(request,'Your Address Updated Successfully.')
         return render(request,'profile.html',{'form':form,'active':'btn-primary'}) 
-
-# class ProductView(View):
-#     def get(self, request):
-#         clothing = Product.objects.filter(category='Clothing')
-#         electronics = Product.objects.filter(category='Electronics')
-#         foods = Product.objects.filter(category='Foods')
-#         grocery = Product.objects.filter(category='Grocery')
-#         stationary = Product.objects.filter(category='Stationary')
-#         footwear = Product.objects.filter(category='Footwear')
-
-        
-
-#         return render(request, 'home.html',
-#                       {'clothing': clothing,
-#                        'electronics': electronics,
-#                         'foods':foods,
-#                         'grocery':grocery,
-#                          'stationary':stationary,
-#                            'footwear':footwear   }
-#                       )
 
 
 def add_to_cart(request):

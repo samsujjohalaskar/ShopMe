@@ -5,7 +5,7 @@
 <div class="container">
   <div class="row my-3">
     <div class="col-sm-6 offset-sm-3">
-      <h1>Customer Registration</h1>
+      {% comment %} <h1>Customer Registration</h1> {% endcomment %}
       <form action="" method="post" novalidate class="shadow p-5">
          
          {% if messages %}
@@ -24,7 +24,7 @@
           <small class="text-danger"> {{f.errors|striptags}} </small>
         </div>
         {% endfor %}
-        <input type="submit" value="Submit" class="btn btn-primary" />
+        <input type="submit" value="Register" class="btn btn-primary" />
         <br />
         <br/>
         <div class="text-center text-primary fw-bold">

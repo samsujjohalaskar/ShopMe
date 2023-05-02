@@ -27,7 +27,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light ">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/"><h2>ShopMe</h2></a>
+        <a class="navbar-brand" href="/" style="margin-left: 10% !important;"><h2>ShopMe</h2></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -35,11 +35,11 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
             {% if request.user.is_authenticated %}
-              <li "nav-item mx-2">
+              <li "nav-item mx-2" style="margin-left: 25rem!important;">
                 {% block search %}{% endblock search %}
               </li>
-              <li class="nav-item dropdown mx-2">
-                <a class="nav-link dropdown-toggle text-dark" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expandable="false" href="#">{{request.user.username|capfirst}}</a>
+              {% comment %} <li class="nav-item dropdown mx-2"> {% endcomment %}
+                {% comment %} <a class="nav-link dropdown-toggle text-dark" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expandable="false" href="#">{{request.user.username|capfirst}}</a>
                 <ul class="dropdown-menu" aia-labelledby="profileDropdown">
                   <li>
                     <a class="dropdown-item" href="{% url 'myapp:profile' %}">Profile</a>
@@ -50,20 +50,26 @@
                   <li>
                     <a class="dropdown-item" href="{% url 'myapp:logout' %}">Logout</a>
                   </li>
-                </ul>  
-                  <li class="nav-item mx-2">
+                </ul>   {% endcomment %}
+                  <li class="nav-item " style="margin-left: 40rem!important;">
+                    <a type="button" class="btn btn-success" href="{% url 'myapp:profile' %}">{{request.user.username|capfirst}}</a>
+                  </li>
+                  <li class="nav-item" style="margin-left: 2rem!important;">
                     <a type="button" class="btn btn-primary" href="{% url 'myapp:showcart' %}">
-                      My Cart <span class="badge bg-secondary">4</span>
+                      My Cart <span class="badge bg-secondary"></span>
                     </a>
+                  </li>
+                  <li class="nav-item"style="margin-left: 2rem!important;">
+                    <a type="button" class="btn btn-danger" href="{% url 'myapp:logout' %}">Logout</a>
                   </li>
               </li>
             {% else %}
 
             <li class="nav-item mx-2">
-              <a class="nav-link active" aria-current="page" href="{% url 'myapp:login' %}">Login</a>
+              <a type="button" class="btn btn-primary" style="margin-left: 65rem!important;" aria-current="page" href="{% url 'myapp:login' %}">Login</a>
             </li>
             <li class="nav-item mx-2">
-              <a class="nav-link active" aria-current="page" href="{% url 'myapp:customerregistration' %}">Register</a>
+              <a type="button" class="btn btn-success" style="margin-left: 3rem!important;" aria-current="page" href="{% url 'myapp:customerregistration' %}">Register</a>
             </li>
             {% endif %}
           </ul>     

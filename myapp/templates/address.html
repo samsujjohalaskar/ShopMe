@@ -14,9 +14,12 @@
         <li class="d-grid">
           <a href="{% url 'myapp:address' %}" class="btn {{active}}">Address</a>
         </li>
+        <li class="d-grid">
+          <a href="{% url 'myapp:passwordchange' %}" class="btn">Change Password</a>
+        </li>
       </ul>
     </div>
-    <div class="col-sm-9 offset-sm-1">
+    <div class="col-sm-8 offset-sm-1">
       <div class="row">
         {% for d in data %}
         <div class="col-sm-6">
