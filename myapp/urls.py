@@ -43,6 +43,8 @@ urlpatterns = [
     path('removecart/',views.remove_cart),
 
     path('placeorder/',views.place_order,name='placeorder'),
+    path('paymentdone/',views.payment_done,name='paymentdone'),
+    path('orders/',views.order_done,name='orders'),
     # path('changepassword/', views.change_password, name='changepassword'),
 
     # path('filter/<slug:data>', views.filter, name='filter-data'),

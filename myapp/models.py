@@ -130,6 +130,10 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
+    @property
+    def price(self):
+        return self.quantity * self.product.discounted_price
         
 
 class Filter(models.Model):
@@ -144,3 +148,14 @@ class Filter(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
+class OrderPlaced(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def price(self):
+        return self.quantity * self.product.discounted_price

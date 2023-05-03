@@ -5,32 +5,51 @@
 <div class="container">
  <div class="row mt-5">
   <div class="col-sm-6">
-    <h4>Order Summary</h4>
-    <hr>
+    <h4 class="fw-bold text-uppercase fs-3">Order Summary</h4>
+    <br>
+    <br>
+      {% for item in cart_items %}
       <div class="card mb-2">
         <div class="card-body">
-          <h5>Product: Product 1</h5>
-          <p>Quantity: 2</p>
-          <p class="fw-bold">Price: 100.00</p>
+          <h5>Product : {{item.product.name}}</h5>
+          <p>Quantity : {{item.quantity}}</p>
+          <p class="fw-bold">Price : {{item.price}}</p>
         </div>
       </div>
-    <small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
+      {% endfor %} 
+      <br>
+      <p class="fw-bold  fs-5">Total Cart Price: Rs. {{totalamount}}</p> 
+      <hr>
+      <br>
+    <small>Term and Condition:<br>1. Payment terms: The full cart price is due at checkout.<br>
+
+      2. Refunds and cancellations: No refunds or cancellations are allowed after payment.<br>
+      
+      3. Liability: The seller should include a clause stating that they are not liable for any damages that occur during shipping or handling.<br>
+      
+      4. Policies: The transaction should be subject to the seller's policies, including their return policy, shipping policy, and any other relevant policies.<br>
+      
+      5. Jurisdiction: The seller should state the jurisdiction of their location. This can help to resolve any disputes that may arise.<br>
+      
+      By including these terms and conditions, both the buyer and seller can have a clear understanding of the transaction and avoid any potential disputes. It can also help to provide protection for both parties and ensure a smooth transaction.</small>
   </div>
   <div class="col-sm-4 offset-sm-1">
-    <h4>Select Shipping Address</h4>
-    <hr>
-    <form action="">
-      <div class="card">
-        <div class="card-body">
-        <h5>Sonam Kumari</h5>
-        <p>Hirapur Dhanbad Jharkahnd</p>
-        </div>
+    <h4 class="fw-bold  fs-5">Select Shipping Address :</h4>
+    <br>
+    <form action="/paymentdone">
+    {% for ad in add %}  
+    <div class="card">
+      <div class="card-body">
+        <h5>{{ad.name}}</h5>
+        <p>{{ad.locality}},{{ad.hometown}},{{ad.state}}-{{ad.zipcode}}</p>
       </div>
-        <div class="form-check mt-2 mb-5">
-          <input class="form-check-input" type="radio" value="">
-          <label class="form-check-label fw-bold" for="">
-            Address: 1 </label>
-        </div>
+    </div>
+    <div class="form-check mt-2 mb-5">
+      <input class="form-check-input" type="radio" name="cust_id" id="custadd{{forloop.counter}}" value="{{ad.id}}">
+      <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
+        Address Line {{forloop.counter}} </label>
+    </div>
+        {% endfor %}
         <div class="text-end">
           <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
         </div>

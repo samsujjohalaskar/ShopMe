@@ -3,7 +3,7 @@
 {% block title %}Address{% endblock title %}
 {% block content %}
 
-<h3 class="fs-4 text-center my-3">Welcome Back <span class="text-capitalize">{{request.user}}</span></h3>
+<h3 class="text-center my-3 fw-bold text-uppercase fs-3">Welcome Back <span class="text-capitalize">{{request.user}}</span></h3>
 <div class="container my-5">
   <div class="row">
     <div class="col-sm-2 border-end">
@@ -13,6 +13,9 @@
         </li>
         <li class="d-grid">
           <a href="{% url 'myapp:address' %}" class="btn {{active}}">Address</a>
+        </li>
+        <li class="d-grid">
+          <a href="{% url 'myapp:orders' %}" class="btn">Orders</a>
         </li>
         <li class="d-grid">
           <a href="{% url 'myapp:passwordchange' %}" class="btn">Change Password</a>
@@ -25,7 +28,7 @@
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <h3>Address {{forloop.counter}}</h3>
+              <h3 class = "fs-5 fw-bold">Address {{forloop.counter}}</h3>
               <hr>
               <br>
               <p>Name: {{d.name}}</p>
