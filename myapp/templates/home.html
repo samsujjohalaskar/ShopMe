@@ -2,28 +2,27 @@
 
 {% block title %}Home{% endblock title %}
 
-{% comment %} {% block category %}
-
-{% for c in product %}
-<li><a class="dropdown-item" href="#">{{c.category}}</a></li>
-{% endfor %}
-
-{% endblock category %} {% endcomment %}
 
 {% block search %}
-{% comment %} <form class="d-flex">
+<form class="d-flex" action="search/" method="get">
   <input
     class="form-control me-3"
     type="search"
     placeholder="Search"
     aria-label="Search"
+    name="query"
+    id="query"
   />
-  <button class="btn btn-outline-success">Search</button>
-</form> {% endcomment %}
+  <button type="submit" class="btn btn-outline-success">Search</button>
+</form> 
 {% endblock search %}
 
+{% block total_product %}
+{{total_product}}
+{% endblock total_product %}
+
     {% block filter %}
-    <section class="text-gray-600 body-font">
+    <section class="text-gray-600 body-font" style="margin-top: 50px;">
       <div class="container px-5 py-5 mx-auto">
 
         <form class="row g-3" action="/" method="post">
@@ -101,7 +100,7 @@
 
 {% block content %}
 <section class="text-gray-600 body-font">
-  <div class="container px-4 py-1 mx-auto"  >
+  <div class="container px-4 py-0 mx-auto"  >
     <div class="flex flex-wrap -m-4">
     {% for p in products %}
       <div  class="lg:w-1/4 md:w-1/2 p-4 w-full">

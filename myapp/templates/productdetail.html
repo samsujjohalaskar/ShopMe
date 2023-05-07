@@ -2,6 +2,10 @@
 {% load static %}
 {% block title %}Product Detail{% endblock title %}
 
+{% block total_product %}
+{{total_product}}
+{% endblock total_product %}
+
 {% block content %}
 
 <section class="text-gray-600 body-font overflow-hidden">
@@ -41,7 +45,7 @@
         </div>
         <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
           <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{product.name}}</h1>
-          <h1 class="text-gray-900 text-2xl title-font font-medium mb-1">{{product.get_rating|floatformat:1}}/5</h1>
+          {% comment %} <h1 class="text-gray-900 text-2xl title-font font-medium mb-1">{{product.get_rating|floatformat:1}}/5</h1> {% endcomment %}
           <h1 class="text-lightblue-900 text-3xl title-font font-medium mb-1">{{product.brand}}</h1>
           <div class="flex mb-4">
             <h3 class="text-gray-900 text-xl title-font font-medium mb-1 text-decoration-line-through">₹ {{product.price}} (original price)</h3>
@@ -66,12 +70,28 @@
           {% comment %} </div> {% endcomment %}
           <div class="flex">
             <span class="title-font font-medium text-2xl text-gray-900">₹ {{product.discounted_price}}   (Flat {{ discount_percentage}}% Off)</span>
-            <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-2 mx-3 focus:outline-none hover:bg-indigo-600 rounded" disabled>Buy Now</button>
-            
-            <form action="/add-to-cart" >
+            {% comment %} <a href="{% url 'myapp:buynow' %}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-2 mx-3 focus:outline-none hover:bg-indigo-600 rounded">Buy Now</a> {% endcomment %}
+            <form action="/buynow" >
               <input type="hidden" name="prod_id" value={{product.id}} id="prod_id">
-              <button href="{% url 'myapp:add-to-cart' %}" type="submit" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Add to Cart</button>
+              <button href="{% url 'myapp:buynow' %}" type="submit" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-2 mx-3 focus:outline-none hover:bg-indigo-600 rounded">Buy Now</button>
             </form>
+
+            {% if request.user.is_authenticated %}
+              {% if in_cart_item %}
+                <a href="{% url 'myapp:showcart' %}" class="flex ml-auto btn btn-warning text-black border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Go to Cart</a>
+              {% else %}
+              <form action="/add-to-cart" >
+                <input type="hidden" name="prod_id" value={{product.id}} id="prod_id">
+                <button href="{% url 'myapp:add-to-cart' %}" type="submit" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Add to Cart</button>
+              </form>
+              {% endif %}
+            {% else %} 
+              <form action="/add-to-cart" >
+                <input type="hidden" name="prod_id" value={{product.id}} id="prod_id">
+                <button href="{% url 'myapp:add-to-cart' %}" type="submit" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Add to Cart</button>
+              </form>
+            {% endif %}  
+
 
           </div>
           </br>
@@ -81,38 +101,42 @@
         </div>
         <hr>
         <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-          <h1 class="text-gray-900 text-xl title-font font-medium mb-1">Customer Ratings &amp; Reviews:</h1>
+          <h1 class="text-gray-900 text-xl title-font font-medium mb-1">Customer Ratings &amp; Reviews : &nbsp&nbsp&nbsp {{product.get_rating|floatformat:1}}/5</h1>
           <div class="notification space-below">
             {% if request.user.is_authenticated %}
-              <form method="post" action="/productdetail/{{pk}}">
-                {% csrf_token %}
-                <div class="flex ml-6 items-center">
-                  <span class="mr-3">Rate This Product</span>
-                  <div class="relative">
-                    <select name="stars" class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3" selected>3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </select>
-                    <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
-                        <path d="M6 9l6 6 6-6"></path>
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Content</label>
-                  <textarea class="textarea" rows="2" name="content" required></textarea>
-                </div>
-                <div class="field">
-                  <div class="control">
-                    <button type="submit" class="button is-success btn btn-primary btn-sm my-3" >Submit</button>
-                  </div>
-                </div>
-              </form>  
+              {% if in_order_item %}
+                {% if not in_review_item %}
+                  <form method="post" action="/productdetail/{{pk}}">
+                    {% csrf_token %}
+                    <div class="flex ml-6 items-center">
+                      <span class="mr-3">Rate This Product</span>
+                      <div class="relative">
+                        <select name="stars" class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3" selected>3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                        <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
+                            <path d="M6 9l6 6 6-6"></path>
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label>Content</label>
+                      <textarea class="textarea" rows="2" name="content" required></textarea>
+                    </div>
+                    <div class="field">
+                      <div class="control">
+                        <button type="submit" class="button is-success btn btn-primary btn-sm my-3" >Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                {% endif %}  
+              {% endif %}  
             {% else %}
               <p>Please<a href="{% url 'myapp:login' %}" > LOGIN </a>to add Reviews</p>          
             {% endif %}

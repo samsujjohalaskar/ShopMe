@@ -25,51 +25,39 @@
 
   <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" >
       <div class="container-fluid">
-        <a class="navbar-brand" href="/" style="margin-left: 10% !important;"><h2>ShopMe</h2></a>
+        <a class="btn btn-outline-primary fs-1" type="button" href="/" style="margin-left: 10% !important;"><h2>ShopMe</h2></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="d-grid gap-3 d-md-flex justify-content-md-end">
 
             {% if request.user.is_authenticated %}
-              <li "nav-item mx-2" style="margin-left: 25rem!important;">
-                {% block search %}{% endblock search %}
+              <li "nav-item me-md-2" style="margin-left: 25rem!important;">
+                {% block search %}
+                {% endblock search %}
               </li>
-              {% comment %} <li class="nav-item dropdown mx-2"> {% endcomment %}
-                {% comment %} <a class="nav-link dropdown-toggle text-dark" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expandable="false" href="#">{{request.user.username|capfirst}}</a>
-                <ul class="dropdown-menu" aia-labelledby="profileDropdown">
-                  <li>
-                    <a class="dropdown-item" href="{% url 'myapp:profile' %}">Profile</a>
+                  <li class="nav-item me-md-2">
+                    <a type="button" class="btn btn-outline-primary" href="{% url 'myapp:profile' %}">{{request.user.username|capfirst}}</a>
                   </li>
-                  <li>
-                    <a class="dropdown-item" href="{% url 'myapp:passwordchange' %}">Change Password</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{% url 'myapp:logout' %}">Logout</a>
-                  </li>
-                </ul>   {% endcomment %}
-                  <li class="nav-item " style="margin-left: 40rem!important;">
-                    <a type="button" class="btn btn-success" href="{% url 'myapp:profile' %}">{{request.user.username|capfirst}}</a>
-                  </li>
-                  <li class="nav-item" style="margin-left: 2rem!important;">
-                    <a type="button" class="btn btn-primary" href="{% url 'myapp:showcart' %}">
-                      My Cart <span class="badge bg-secondary"></span>
+                  <li class="nav-item me-md-2" >
+                    <a type="button" class="btn btn-outline-warning" href="{% url 'myapp:showcart' %}">
+                      My Cart <span class="badge bg-success ">{% block total_product %}{% endblock total_product %}</span>
                     </a>
                   </li>
-                  <li class="nav-item"style="margin-left: 2rem!important;">
-                    <a type="button" class="btn btn-danger" href="{% url 'myapp:logout' %}">Logout</a>
+                  <li class="nav-item me-md-2">
+                    <a type="button" class="btn btn-outline-danger" href="{% url 'myapp:logout' %}">Logout</a>
                   </li>
               </li>
             {% else %}
 
             <li class="nav-item mx-2">
-              <a type="button" class="btn btn-primary" style="margin-left: 65rem!important;" aria-current="page" href="{% url 'myapp:login' %}">Login</a>
+              <a type="button" class="btn btn-outline-primary" style="margin-left: 65rem!important;" aria-current="page" href="{% url 'myapp:login' %}">Login</a>
             </li>
             <li class="nav-item mx-2">
-              <a type="button" class="btn btn-success" style="margin-left: 3rem!important;" aria-current="page" href="{% url 'myapp:customerregistration' %}">Register</a>
+              <a type="button" class="btn btn-outline-success" style="margin-left: 3rem!important;" aria-current="page" href="{% url 'myapp:customerregistration' %}">Register</a>
             </li>
             {% endif %}
           </ul>     
@@ -82,7 +70,7 @@
     {% block content %}{% endblock content %}
     
     {% block footer %}
-    <footer class="container-fluid bg-dark text-center p-2 mt-5">
+    <footer class="container-fluid bg-dark text-center p-2 mt-5 fixed-bottom">
       <small class="text-white">Copyright &copy; ShopMe 2023</small>
     </footer>
     {% endblock footer %}

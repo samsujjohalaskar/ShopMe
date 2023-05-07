@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% load static %} 
+
+{% block title %}Home{% endblock title %}
+
+{% block search %}
+<form class="d-flex" action="{% url 'myapp:search' %}" method="get">
+  <input
+    class="form-control me-3"
+    type="search"
+    placeholder="type here.."
+    aria-label="Search"
+    name="query"
+    id="query"
+  />
+  <button type="submit" class="btn btn-outline-success">Search</button>
+</form> 
+{% endblock search %}
+
+{% block total_product %}
+{{total_product}}
+{% endblock total_product %}
+
+{% block content %}
+<section class="text-gray-600 body-font" style="margin-top: 120px !important;">
+  <h3 class="text-center fs-3 my-3">Search Results....</h3>
+  <div class="container px-4 py-1 mx-auto"  >
+    <div class="flex flex-wrap -m-4">
+    {% for p in products %}
+      <div  class="lg:w-1/4 md:w-1/2 p-4 w-full">
+        <a href="{% url 'myapp:productdetail' p.id %}" class="block relative h-48 rounded overflow-hidden">
+            <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ p.images_url }}">
+        </a>
+        <div class="mt-4">
+          <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{p.category}} | {{p.brand}}</h3>
+          <h2 class="text-gray-900 title-font text-lg font-medium">{{p.name}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{p.get_rating|floatformat:1}}/5</h2>
+          <p class="mt-1"><h3 class="text-decoration-line-through">₹ {{p.price}}</b></h3><h3> <b>Now only at ₹ {{p.discounted_price}}</b></h3></p>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  <div class="container my-5">
+    <div class="row">
+        <h3 class="text-center">{{content}}</h3>
+    </div>
+</div>
+</section>
+{% endblock content %}
+

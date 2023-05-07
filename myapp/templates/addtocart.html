@@ -55,17 +55,22 @@
 }
 {% endblock quantityCSS %}
 
+{% block total_product %}
+{{total_product}}
+{% endblock total_product %}
+
 {% block content %}
 <div class="container my-5">
   <div class="row">
-    <h1 class="mb-5 text-center my-3 fw-bold text-uppercase fs-4">Welcome to Your Cart Listing Page</h1>
+    <h1 class="mb-5 text-center fw-bold text-uppercase fs-4" style="margin-top: 50px !important;">Welcome to Your Cart Listing Page</h1>
     <div class="col-sm-8">
       <div class="card">
         <div class="card-body">
           {% for c in carts %}
           <div class="row">
             <h3>Item {{forloop.counter}}</h3>
-            <div class="col-sm-3 text-center align-self-center">
+            <br>
+            <a class="col-sm-3 text-center align-self-center"  href="{% url 'myapp:cartproductdetail' c.product.id %}">
               <img
                 src="{{c.product.images.url}}"
                 alt=""
@@ -74,7 +79,7 @@
                 height="150"
                 width="150"
               />
-            </div>
+            </a>
             <div class="col-sm-9">
               <div>
                 <h5 class="fs-4">{{c.product.name}}</h5>

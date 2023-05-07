@@ -1,17 +1,34 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render,redirect
 from django.views import View
-from myapp.forms import CustomerProfileForm, CustomerRegistrationForm,FilterForm, LoginForm
-from myapp.models import Cart, Customer, OrderPlaced, Product, productImage,ProductReview
+from myapp.forms import CustomerProfileForm, CustomerRegistrationForm, CustomerReportForm,FilterForm
+from myapp.models import Cart, Customer, OrderPlaced, Product, Report, productImage,ProductReview
 from django.contrib import messages
 from django.db.models import Q
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 def home(request):
-    products = Product.objects.all() 
+    print("home called")
+    products = Product.objects.all()
+    # cart = []
+    total_product = 0
+    # print("user is: ",request.user)
+    if (str(request.user) != "AnonymousUser"):
+        # print("in if")
+        user=request.user
+        cart = Cart.objects.filter(user=user)
+        # print(cart, "cart")
+        # print(cart)
+        for x in cart:
+            # print("in loop")
+            # print(x)
+            total_product = total_product+1 
     if request.method == "GET":
         print("get")
     elif request.method == "POST":
+        total_product = 0
         price_filter = request.POST.get("price_filter")
         brand_filter = request.POST.get("brand_filter")
         discount_filter = request.POST.get("discount_filter")
@@ -52,6 +69,7 @@ def home(request):
 
     context = {
         'products':products,
+        'total_product':total_product
     }
     return render(request, 'home.html',context)
 
@@ -83,12 +101,39 @@ def retrive_price_filter(value):
 
 def productdetail(request,pk):
     product = Product.objects.get(pk=pk)
+    cart = Cart.objects.filter(user=request.user)
+    total_product = 0
+    for x in cart:
+        total_product = total_product+1 
     if request.method == "GET":
         productImages = productImage.objects.all().filter(product_id = pk)
         # print(productImages)
+
+        in_cart_item = False
+        if request.user.is_authenticated:
+            in_cart_item = Cart.objects.filter(Q(product=product.id) & Q(user=request.user)).exists()
+
+        in_order_item = False
+        if request.user.is_authenticated:
+            in_order_item = OrderPlaced.objects.filter(Q(product=product.id) & Q(user=request.user)).exists()
+        
+        in_review_item = False
+        if request.user.is_authenticated:
+            in_review_item = ProductReview.objects.filter(Q(product=product.id) & Q(user=request.user)).exists()
+            
         discount_percentage = ((product.price-product.discounted_price)/product.price)*100
         dp = ("%.1f" % discount_percentage)
-        return render(request,'productdetail.html',{'product':product,'discount_percentage':dp, 'productImages':productImages, 'pk':pk})
+
+        data = {'product':product,
+                'discount_percentage':dp,
+                'productImages':productImages, 
+                'pk':pk , 
+                'in_cart_item':in_cart_item,
+                'in_order_item':in_order_item,
+                'in_review_item':in_review_item,
+                'total_product':total_product
+            }
+        return render(request,'productdetail.html',data)
     
     if request.method == 'POST' and request.user.is_authenticated:
         stars = request.POST.get('stars',3)
@@ -122,13 +167,17 @@ def make_filter(request):
             return HttpResponseRedirect('filter/')
     else:
         form = FilterForm()
-    return render(request,'home.html',{'form':form})   
+    return render(request,'home.html',{'form':form,})   
 
-
+@method_decorator(login_required,name='dispatch')
 class ProfileView(View):
     def get(self,request):
         form = CustomerProfileForm()
-        return render(request,'profile.html',{'form':form,'active':'btn-primary'})
+        cart = Cart.objects.filter(user=request.user)
+        total_product = 0
+        for x in cart:
+            total_product = total_product+1 
+        return render(request,'profile.html',{'form':form,'active':'btn-primary','total_product':total_product})
 
     def post(self,request):
         form = CustomerProfileForm(request.POST)
@@ -145,7 +194,29 @@ class ProfileView(View):
             messages.success(request,'Your Address Updated Successfully.')
         return render(request,'profile.html',{'form':form,'active':'btn-primary'}) 
 
+@method_decorator(login_required,name='dispatch')
+class ReportView(View):
+    def get(self,request):
+        form = CustomerReportForm()
+        cart = Cart.objects.filter(user=request.user)
+        total_product = 0
+        for x in cart:
+            total_product = total_product+1 
+        return render(request,'help_support.html',{'form':form,'active':'btn-primary','total_product':total_product})
 
+    def post(self,request):
+        form = CustomerReportForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            email = form.cleaned_data['email']
+            problem = form.cleaned_data['problem']
+            data = Report(user=user,email=email,problem=problem)
+            data.save()
+            messages.success(request,'Problem Reported Successfully.')
+        return render(request,'help_support.html',{'form':form,'active':'btn-primary'}) 
+
+
+@login_required
 def add_to_cart(request):
     if request.user.is_authenticated:
         user = request.user
@@ -155,10 +226,14 @@ def add_to_cart(request):
         return redirect('/cart')
     return redirect('/accounts/login/')
 
+@login_required
 def show_cart(request):
     if request.user.is_authenticated:
         user = request.user
         cart = Cart.objects.filter(user=user)
+        total_product = 0
+        for x in cart:
+            total_product = total_product+1
         amount = 0.0
         shipping_amount = 70.0
         total_amount = 0.0
@@ -169,8 +244,8 @@ def show_cart(request):
                 temp_amount = (p.quantity * p.product.discounted_price)
                 amount += temp_amount
                 total_amount = amount + shipping_amount
-            return render(request,'addtocart.html',{'carts':cart,'totalamount':total_amount,'amount':amount})
-        return render(request,'emptycart.html')
+            return render(request,'addtocart.html',{'carts':cart,'totalamount':total_amount,'amount':amount,'total_product':total_product})
+        return render(request,'emptycart.html',{'total_product':total_product})
 
 def plus_cart(request):
     if request.method == 'GET':
@@ -241,19 +316,28 @@ def remove_cart(request):
                 
             return JsonResponse(data)
 
+@login_required
 def address(request):
     data = Customer.objects.filter(user=request.user)
-    return render(request, 'address.html',{'data':data,'active':'btn-primary'})
+    cart = Cart.objects.filter(user=request.user)
+    total_product = 0
+    for x in cart:
+        total_product = total_product+1
+    return render(request, 'address.html',{'data':data,'active':'btn-primary','total_product':total_product})
 
 
 def login(request):
     return render(request, 'login.html')
 
-
+@login_required
 def place_order(request):
     user = request.user
     add = Customer.objects.filter(user = user)
     cart_items = Cart.objects.filter(user = user)
+    cart = Cart.objects.filter(user=request.user)
+    total_product = 0
+    for x in cart:
+        total_product = total_product+1
     amount = 0.0
     shipping_amount = 70.0
     totalamount = 0.0
@@ -263,9 +347,37 @@ def place_order(request):
             temp_amount = (p.quantity * p.product.discounted_price)
             amount += temp_amount  
         totalamount = amount + shipping_amount    
-    return render(request, 'checkout.html', {'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,})
+    return render(request, 'checkout.html', {'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,'total_product':total_product})
 
+@login_required
+def buy_now(request):
+    if request.user.is_authenticated:
+        user = request.user
+        product_id = request.GET.get('prod_id')
+        product = Product.objects.get(id=product_id)
+        cart_item = Cart.objects.filter(user = user,product=product)
+        cart = Cart.objects.filter(user=request.user)
+        total_product = 0
+        for x in cart:
+            total_product = total_product+1
+        if not cart_item:
+            Cart(user=user,product=product).save()
+            add = Customer.objects.filter(user = user)
+            cart_items = Cart.objects.filter(user = user)
+            amount = 0.0
+            shipping_amount = 70.0
+            totalamount = 0.0
+            cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+            if cart_product:
+                for p in cart_product:
+                    temp_amount = (p.quantity * p.product.discounted_price)
+                    amount += temp_amount  
+                totalamount = amount + shipping_amount    
+            return render(request, 'checkout.html', {'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,'total_product':total_product})
+        else:
+            return redirect('/placeorder/') 
 
+@login_required
 def payment_done(request):
     user = request.user
     cust_id = request.GET.get('cust_id')
@@ -276,7 +388,27 @@ def payment_done(request):
         c.delete()
     return redirect('/orders/')    
 
+@login_required
 def order_done(request):
     user = request.user
+    cart = Cart.objects.filter(user=user)
+    total_product = 0
+    for x in cart:
+        total_product = total_product+1
     order = OrderPlaced.objects.filter(user = user)
-    return render (request,'orders.html',{'order':order,})
+    return render (request,'orders.html',{'order':order,'total_product':total_product})
+
+@login_required
+def product_search(request):
+    query = request.GET['query']
+    cart = Cart.objects.filter(user=request.user)
+    total_product = 0
+    for x in cart:
+        total_product = total_product+1
+    content = "No Product Found! Please Search By Name,Brand or Category."
+    products = Product.objects.filter(Q(name__icontains = query)|Q(category__icontains = query)|Q(brand__icontains = query))
+    if products:
+        return render (request,'product_search.html',{'products':products,'total_product':total_product})
+    else:
+        return render (request,'product_search.html',{'content':content,'total_product':total_product})
+

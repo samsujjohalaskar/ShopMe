@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Cart is Empty{% endblock title %}
+
+{% block total_product %}
+{{total_product}}
+{% endblock total_product %}
+
 {% block content %}
 <div class="container my-5">
     <div class="row">
-        <h3 class="text-center">Your Cart is Empty <a class="text-decoration-underline" href="/">Add Product Now</a> </h3>
+        <h3 class="text-center fs-3" style="margin-top: 200px !important;">Your Cart is Empty! </h3>
+    </div>
+    <div class="row">
+        <h3 class="text-center" style="margin-top: 50px !important;"><a type="button" class="btn btn-primary" href="/">Add Product</a> </h3>
     </div>
 </div>
 {% endblock content %}

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Customer, OrderPlaced,Product,Cart, productImage,ProductReview
+from .models import Customer, OrderPlaced,Product,Cart, Report, productImage,ProductReview
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -10,6 +10,10 @@ class CustomerAdmin(admin.ModelAdmin):
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
     list_display = ['id','user','product','quantity']
+
+@admin.register(Report)
+class reportAdmin(admin.ModelAdmin):
+    list_display = ['id','user','email','problem','date_reported']    
 
 @admin.register(OrderPlaced)
 class CartAdmin(admin.ModelAdmin):

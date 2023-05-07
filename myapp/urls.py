@@ -13,6 +13,7 @@ urlpatterns = [
     path('filter/', views.make_filter, name='filter'),
 
     path('productdetail/<int:pk>', views.productdetail, name='productdetail'),
+    path('cart/productdetail/<int:pk>', views.productdetail, name='cartproductdetail'),
     
     path('registration/', views.CustomerRegistrationView.as_view(), name='customerregistration'),
 
@@ -33,7 +34,12 @@ urlpatterns = [
     path ('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),name='password_reset_complete'),
 
     path('profile/', views.ProfileView.as_view(), name='profile'),
+    path('helpsupport/', views.ReportView.as_view(), name='helpsupport'),
 
+    path('search/', views.product_search, name="search"),
+
+
+    path('buynow/', views.buy_now, name='buynow'),
     path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
 
     path('cart/', views.show_cart, name='showcart'),
@@ -45,9 +51,6 @@ urlpatterns = [
     path('placeorder/',views.place_order,name='placeorder'),
     path('paymentdone/',views.payment_done,name='paymentdone'),
     path('orders/',views.order_done,name='orders'),
-    # path('changepassword/', views.change_password, name='changepassword'),
-
-    # path('filter/<slug:data>', views.filter, name='filter-data'),
 
     path('address/', views.address, name='address'),
     

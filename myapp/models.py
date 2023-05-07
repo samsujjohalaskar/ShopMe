@@ -64,7 +64,7 @@ class Customer(models.Model):
 
     def __str__(self):
         return str(self.id)
-           
+
 class Product(models.Model):
     name = models.CharField(max_length=100)
     images = models.ImageField(upload_to='product',default="")
@@ -159,3 +159,13 @@ class OrderPlaced(models.Model):
     @property
     def price(self):
         return self.quantity * self.product.discounted_price
+
+    
+class Report(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,editable=True)
+    email = models.EmailField(max_length=70,blank=True)
+    problem = models.TextField()
+    date_reported = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.id)
