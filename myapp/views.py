@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 def home(request):
-    print("home called")
+    # print("home called")
     products = Product.objects.all()
     # cart = []
     total_product = 0
@@ -26,14 +26,14 @@ def home(request):
             # print(x)
             total_product = total_product+1 
     if request.method == "GET":
-        print("get")
+        print(" ")
     elif request.method == "POST":
         total_product = 0
         price_filter = request.POST.get("price_filter")
         brand_filter = request.POST.get("brand_filter")
         discount_filter = request.POST.get("discount_filter")
         category_filter = request.POST.get("category_filter")
-        print(price_filter, brand_filter, discount_filter, category_filter)
+        # print(price_filter, brand_filter, discount_filter, category_filter)
 
 
         if(price_filter == '1'):
@@ -62,9 +62,14 @@ def home(request):
             category_filter = retrive_filter("category", category_filter)
             products = products.filter(category = category_filter)
 
+        if (str(request.user) != "AnonymousUser"):
+            user=request.user
+            cart = Cart.objects.filter(user=user)
+            for x in cart:
+                total_product = total_product+1
 
-        print("post", products)
-        print(price_filter, brand_filter, discount_filter, category_filter)
+        # print("post", products)
+        # print(price_filter, brand_filter, discount_filter, category_filter)
         # return HttpResponseRedirect(request.path_info)
 
     context = {
@@ -98,7 +103,7 @@ def retrive_filter(filter_type, value):
 def retrive_price_filter(value):
     pass
 
-
+@login_required
 def productdetail(request,pk):
     product = Product.objects.get(pk=pk)
     cart = Cart.objects.filter(user=request.user)
@@ -320,10 +325,14 @@ def remove_cart(request):
 def address(request):
     data = Customer.objects.filter(user=request.user)
     cart = Cart.objects.filter(user=request.user)
+    content = "No Address Found! Please add Address."
     total_product = 0
     for x in cart:
         total_product = total_product+1
-    return render(request, 'address.html',{'data':data,'active':'btn-primary','total_product':total_product})
+    if data:    
+        return render(request, 'address.html',{'data':data,'active':'btn-primary','total_product':total_product})
+    else:
+        return render(request, 'address.html',{'content':content,'active':'btn-primary','total_product':total_product})
 
 
 def login(request):
@@ -392,11 +401,15 @@ def payment_done(request):
 def order_done(request):
     user = request.user
     cart = Cart.objects.filter(user=user)
+    content = "You haven't Ordered Any Product Yet. "
     total_product = 0
     for x in cart:
         total_product = total_product+1
     order = OrderPlaced.objects.filter(user = user)
-    return render (request,'orders.html',{'order':order,'total_product':total_product})
+    if order:
+        return render (request,'orders.html',{'order':order,'total_product':total_product})
+    else:
+        return render (request,'orders.html',{'order':order,'total_product':total_product,'content':content})
 
 @login_required
 def product_search(request):

@@ -100,16 +100,16 @@
           <h3 class="text-green-900 text-xl title-font font-medium mb-1">● Will be Delivered before {{product.delivery_time}}</h3>
         </div>
         <hr>
-        <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-          <h1 class="text-gray-900 text-xl title-font font-medium mb-1">Customer Ratings &amp; Reviews : &nbsp&nbsp&nbsp {{product.get_rating|floatformat:1}}/5</h1>
+        <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-10">
+          <p class="text-gray-900 text-xl title-font font-medium mb-1 fs-4">Ratings & Reviews : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <span class="fs-4 border border-success border-4 fw-bold text-success" style="padding:12px; border-radius:50px;">{{product.get_rating|floatformat:1}}<span></h1>
           <div class="notification space-below">
             {% if request.user.is_authenticated %}
               {% if in_order_item %}
                 {% if not in_review_item %}
                   <form method="post" action="/productdetail/{{pk}}">
                     {% csrf_token %}
-                    <div class="flex ml-6 items-center">
-                      <span class="mr-3">Rate This Product</span>
+                    <div class="flex ml-0 items-center">
+                      <span class="mr-3 my-4 ">Rate Product:</span>
                       <div class="relative">
                         <select name="stars" class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
                           <option value="1">1</option>
@@ -126,8 +126,8 @@
                       </div>
                     </div>
                     <div class="field">
-                      <label>Content</label>
-                      <textarea class="textarea" rows="2" name="content" required></textarea>
+                      <label class="form-label">Write a Review: </label>
+                      <textarea class="form-control" rows="2" name="content" required></textarea>
                     </div>
                     <div class="field">
                       <div class="control">
@@ -145,10 +145,9 @@
               {% for review in product.reviews.all %}
                   <div class="notification space-below">
                       <p>
-                         <p>{{review.content}}</p>
-                        <strong>{{review.user }}:</strong>
-                        <strong>Rated</strong> {{review.stars }}/5
-                        <strong>On</strong> {{review.date_added|date:"d-M-Y"}}
+                        <p>{{review.content}}</p>
+                        <span> {{review.stars }}/5</span>
+                        <p>by <strong> {{review.user }}</strong> on {{review.date_added|date:"d-M-Y"}}</p>
                       </p>
                       <br>
                   </div>
