@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.urls import reverse
 
 # Register your models here.
 from .models import Customer, OrderPlaced,Product,Cart, Report, productImage,ProductReview
@@ -9,7 +11,11 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['id','user','product','quantity']
+    list_display = ['id','user','product','product_info','quantity']
+    
+    def product_info(self,obj):
+        link = reverse("admin:myapp_product_change",args=[obj.product.pk])
+        return format_html('<a href="{}">{}</a>',link,obj.product.name)
 
 @admin.register(Report)
 class reportAdmin(admin.ModelAdmin):
@@ -17,17 +23,29 @@ class reportAdmin(admin.ModelAdmin):
 
 @admin.register(OrderPlaced)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['id','user','customer','product','quantity','date_ordered']    
+    list_display = ['id','user','customer_id','customer_info','product_id','product_info','quantity','date_ordered']    
+
+    def customer_info(self,obj):
+        link = reverse("admin:myapp_customer_change",args=[obj.customer.pk])
+        return format_html('<a href="{}">{}</a>',link,obj.customer.name)
+    
+    def product_info(self,obj):
+        link = reverse("admin:myapp_product_change",args=[obj.product.pk])
+        return format_html('<a href="{}">{}</a>',link,obj.product.name)
 
 @admin.register(ProductReview)
 class ProductReviewAdmin(admin.ModelAdmin):
-    list_display = ['id','product','user','content','date_added','stars']
+    list_display = ['id','user','product','stars','content','product_info','date_added']
+
+    def product_info(self,obj):
+        link = reverse("admin:myapp_product_change",args=[obj.product.pk])
+        return format_html('<a href="{}">{}</a>',link,obj.product.name)
 
 class productImageAdmin(admin.StackedInline):
     model = productImage
     # list_display = ['id','product','images']
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id','name','images','brand','category','price','discounted_price','discount_percentage','delivery_time','availability']
+    list_display = ['id','name','images','brand','category','price','discounted_price','discount_percentage','get_rating','delivery_time','availability']
     inlines = [
             productImageAdmin,
         ]
