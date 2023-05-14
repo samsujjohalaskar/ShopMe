@@ -185,6 +185,10 @@ class ProfileView(View):
         return render(request,'profile.html',{'form':form,'active':'btn-primary','total_product':total_product})
 
     def post(self,request):
+        cart = Cart.objects.filter(user=request.user)
+        total_product = 0
+        for x in cart:
+            total_product = total_product+1
         form = CustomerProfileForm(request.POST)
         if form.is_valid():
             user = request.user
@@ -197,7 +201,7 @@ class ProfileView(View):
             data = Customer(user=user,name=name,locality=locality,hometown=hometown,zipcode=zipcode,contact=contact,state=state)
             data.save()
             messages.success(request,'Your Address Updated Successfully.')
-        return render(request,'profile.html',{'form':form,'active':'btn-primary'}) 
+        return render(request,'profile.html',{'form':form,'active':'btn-primary','total_product':total_product}) 
 
 @method_decorator(login_required,name='dispatch')
 class ReportView(View):
@@ -343,6 +347,7 @@ def place_order(request):
     user = request.user
     add = Customer.objects.filter(user = user)
     cart_items = Cart.objects.filter(user = user)
+    content = "Please Add Address Before Ordering Products."
     cart = Cart.objects.filter(user=request.user)
     total_product = 0
     for x in cart:
@@ -351,12 +356,15 @@ def place_order(request):
     shipping_amount = 70.0
     totalamount = 0.0
     cart_product = [p for p in Cart.objects.all() if p.user == request.user]
-    if cart_product:
-        for p in cart_product:
-            temp_amount = (p.quantity * p.product.discounted_price)
-            amount += temp_amount  
-        totalamount = amount + shipping_amount    
-    return render(request, 'checkout.html', {'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,'total_product':total_product})
+    if add:
+        if cart_product:
+            for p in cart_product:
+                temp_amount = (p.quantity * p.product.discounted_price)
+                amount += temp_amount  
+            totalamount = amount + shipping_amount    
+        return render(request, 'checkout.html', {'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,'total_product':total_product})
+    return render(request, 'checkout.html', {'content':content,'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,'total_product':total_product})
+
 
 @login_required
 def buy_now(request):

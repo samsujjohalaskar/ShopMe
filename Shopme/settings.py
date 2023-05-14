@@ -27,7 +27,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SECRET_KEY = 'django-insecure-y1r0f9%hbbf2+_s-y$q8ehg7-eji+f=itq7bh%lrej@@y$5bl9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -137,8 +137,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'theshopmehelp@gmail.com'
-EMAIL_HOST_PASSWORD = 'SuperFreeWay@2023'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 
 
 # Default primary key field type
