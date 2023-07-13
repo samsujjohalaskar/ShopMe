@@ -161,8 +161,8 @@ class CustomerRegistrationView(View):
         if form.is_valid():
             # messages.success(request,'Congratulations! Registration Successfull.')
             form.save()
-        # return render(request,'registration.html',{'form':form})
-        return redirect('/accounts/login/')
+            return redirect('/accounts/login/')
+        return render(request,'registration.html',{'form':form})
 
 
 def make_filter(request):

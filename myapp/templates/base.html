@@ -24,47 +24,113 @@
     </style>
   </head>
 
-  <body>
+  <body style="background-color:#f1f3f6;">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" >
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #aad7e9 !important;">
       <div class="container-fluid">
-        <a class="btn btn-outline-primary fs-1" type="button" href="/" style="margin-left: 10% !important;"><h2>ShopMe</h2></a>
+        <a href="/"><img src="{% static 'image/logo.png' %}" style="max-width: 100%;height: auto; margin-left:2em"></img></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="d-grid gap-3 d-md-flex justify-content-md-end">
+          <ul class="d-grid gap-3 d-md-flex navbar-nav ml-auto mr-24">
 
             {% if request.user.is_authenticated %}
-              <li "nav-item me-md-2" style="margin-left: 25rem!important;">
+              <li "nav-item me-md-2">
                 {% block search %}
                 {% endblock search %}
               </li>
-                  <li class="nav-item me-md-2">
-                    <a type="button" class="btn btn-outline-primary" href="{% url 'myapp:profile' %}">{{request.user.username|capfirst}}</a>
-                  </li>
-                  <li class="nav-item me-md-2" >
-                    <a type="button" class="btn btn-outline-warning" href="{% url 'myapp:showcart' %}">
-                      My Cart <span class="badge bg-success ">{% block total_product %}{% endblock total_product %}</span>
+                <li>
+                  <li class="nav-item me-md-0" style="margin-left: 13em;">
+                    <a class="nav-link d-flex align-items-center" style="font-size: 1.5em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:profile' %}">
+                      <img class="icons" alt="Account" src="{% static 'image/account.png' %}"></img>
+                      <h5 class="d-inline" style="font-family: Nunito,sans-serif;color: #443e65;">{{request.user.username|capfirst}}</h5>
                     </a>
                   </li>
-                  <li class="nav-item me-md-2">
-                    <a type="button" class="btn btn-outline-danger" href="{% url 'myapp:logout' %}">Logout</a>
+                  <li class="nav-item me-md-0">
+                    <a class="nav-link d-flex align-items-center" href="{% url 'myapp:showcart' %}">
+                      <img class="icons" alt="Cart" src="{% static 'image/cart.png' %}"></img>
+                      <span class="badge bg-danger" style="border-radius: 1em;padding: 4px 8px;font-size: 1.2em;margin-left: -2em;margin-bottom: 1em;">{% block total_product %}{% endblock total_product %}</span>
+                    </a>
                   </li>
-              </li>
+                  <li class="nav-item me-md-0">
+                    <a class="nav-link d-flex align-items-center" style="font-size: 1.5em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:logout' %}">
+                      <img class="icons" alt="Account" src="{% static 'image/logout.png' %}"></img>
+                      <h5 class="d-inline" style="font-family: Nunito,sans-serif;color: #443e65;">Logout</h5>
+                    </a>
+                  </li>
+                </li>
             {% else %}
 
             <li class="nav-item mx-2">
-              <a type="button" class="btn btn-outline-primary" style="margin-left: 15rem!important;" aria-current="page" href="{% url 'myapp:login' %}">Login</a>
+              <a class="nav-link d-flex align-items-center" style="font-size: 1.5em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:login' %}">
+                <h5 class="d-inline" style="font-family: Nunito,sans-serif;color: #443e65;">Login</h5>
+                <img class="icons" alt="Account" src="{% static 'image/login.png' %}"></img>
+              </a>
             </li>
             <li class="nav-item mx-2">
-              <a type="button" class="btn btn-outline-success" style="margin-left: 3rem!important;" aria-current="page" href="{% url 'myapp:customerregistration' %}">Register</a>
+              <a class="nav-link d-flex align-items-center" style="font-size: 1.5em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:customerregistration' %}">
+                <h5 class="d-inline" style="font-family: Nunito,sans-serif;color: #443e65;">Register</h5>
+                <img class="icons" alt="Account" src="{% static 'image/register.png' %}"></img>
+              </a>
             </li>
             {% endif %}
           </ul>     
         </div>
       </div>
     </nav>
+
+
+    {% comment %} <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #aad7e9 !important;">
+      <div class="container-fluid">
+        <a href="/"><img src="{% static 'image/logo.png' %}" style="max-width: 120%;height: auto;"></img></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="d-grid gap-3 d-md-flex justify-content-md-end flex-end">
+
+            {% if request.user.is_authenticated %}
+              <li "nav-item me-md-2">
+                {% block search %}
+                {% endblock search %}
+              </li>
+                <li>
+                  <li class="nav-item me-md-0">
+                    <a style="font-size: 1.9em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:profile' %}">
+                      <img class="background-image" src="{% static 'image/account1.png' %}"></img>
+                    </a>
+                  </li>
+                  <a style="font-size: 1.9em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:profile' %}">{{request.user.username|capfirst}}
+                  <li class="nav-item me-md-4">
+                  </li>
+                  <li class="nav-item me-md-0">
+                    <a href="{% url 'myapp:showcart' %}">
+                      <img class="background-image"src="{% static 'image/cart.png' %}"></img>
+                    </a>
+                  </li>
+                  <li class="nav-item me-md-4">
+                    <a href="{% url 'myapp:showcart' %}">
+                      <span class="badge bg-danger " style="border-radius: 1em;padding: 6.65px 8.65px;font-size: 1.2em;">{% block total_product %}{% endblock total_product %}</span>
+                    </a>
+                  </li>
+                  <li class="nav-item me-md-2">
+                    <a style="font-size: 1.9em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:logout' %}">Logout</a>
+                  </li>
+                </li>
+            {% else %}
+
+            <li class="nav-item mx-2">
+              <a style="margin-left: 15rem!important;" href="{% url 'myapp:login' %}">Login</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a style="margin-left: 3rem!important;" href="{% url 'myapp:customerregistration' %}">Register</a>
+            </li>
+            {% endif %}
+          </ul>     
+        </div>
+      </div>
+    </nav> {% endcomment %}
 
     {% block filter %}{% endblock filter %}
 

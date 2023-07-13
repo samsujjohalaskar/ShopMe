@@ -99,11 +99,12 @@
     {% endblock filter %}
 
 {% block content %}
-<section class="text-gray-600 body-font">
-  <div class="container px-4 py-0 mx-auto"  >
+{% comment %} <section class="text-gray-600 body-font"> {% endcomment %}
+  {% comment %} <div class="container px-4 py-0 mx-auto"  > {% endcomment %}
+  <div style="margin-left: 50px;margin-right: 50px;padding-bottom: 70px;">  
     <div class="flex flex-wrap -m-4">
     {% for p in products %}
-      <div  class="lg:w-1/4 md:w-1/2 p-4 w-full">
+      <div  class="lg:w-1/6 md:w-1/2 p-4 w-full" style="box-shadow: 0 0 1rem rgba(0,0,0,0.5)!important; margin:30px;background-color: #FAFAFA;border-radius: 5px;">
         <a href="{% url 'myapp:productdetail' p.id %}" class="block relative h-48 rounded overflow-hidden">
             <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ p.images_url }}">
         </a>
@@ -116,6 +117,6 @@
     {% endfor %}
     </div>
   </div>
-</section>
+{% comment %} </section> {% endcomment %}
 {% endblock content %}
 
