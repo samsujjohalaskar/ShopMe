@@ -8,10 +8,11 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+import random
 
 def home(request):
     # print("home called")
-    products = Product.objects.all()
+    products = Product.objects.order_by('?')
     # cart = []
     total_product = 0
     # print("user is: ",request.user)
@@ -81,11 +82,13 @@ def home(request):
 def retrive_filter(filter_type, value):
     if (filter_type == "brand"):
         if (value == '1'):
-            return "brand1"
+            return "Brand A"
         elif (value == '2'):
-            return "brand2"
+            return "Brand B"
         elif (value == '3'):
-            return "brand3"
+            return "Brand C"
+        elif (value == '4'):
+            return "Brand D"
     elif (filter_type == "category"):
         if (value == '1'):
             return "Clothing"

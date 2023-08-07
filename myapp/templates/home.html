@@ -47,9 +47,10 @@
             <div class="col-auto">
               <select id="inputState" class="form-select" name="brand_filter">
                 <option value="0" selected>All</option>
-                <option value="1">brand1</option>
-                <option value="2">brand2</option>
-                <option value="3">brand3</option>
+                <option value="1">Brand A</option>
+                <option value="2">Brand B</option>
+                <option value="3">Brand C</option>
+                <option value="4">Brand D</option>
               </select>
             </div>
             {% comment %} <div class="col-auto">
@@ -106,7 +107,7 @@
     {% for p in products %}
       <div  class="lg:w-1/6 md:w-1/2 p-4 w-full" style="box-shadow: 0 0 1rem rgba(0,0,0,0.5)!important; margin:30px;background-color: #FAFAFA;border-radius: 5px;">
         <a href="{% url 'myapp:productdetail' p.id %}" class="block relative h-48 rounded overflow-hidden">
-            <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ p.images_url }}">
+            <img alt="{{p.name}}" class="object-cover object-center w-full h-full block" src="{{ p.images_url }}">
         </a>
         <div class="mt-4">
           <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{p.category}} | {{p.brand}}</h3>

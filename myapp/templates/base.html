@@ -80,58 +80,6 @@
       </div>
     </nav>
 
-
-    {% comment %} <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #aad7e9 !important;">
-      <div class="container-fluid">
-        <a href="/"><img src="{% static 'image/logo.png' %}" style="max-width: 120%;height: auto;"></img></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="d-grid gap-3 d-md-flex justify-content-md-end flex-end">
-
-            {% if request.user.is_authenticated %}
-              <li "nav-item me-md-2">
-                {% block search %}
-                {% endblock search %}
-              </li>
-                <li>
-                  <li class="nav-item me-md-0">
-                    <a style="font-size: 1.9em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:profile' %}">
-                      <img class="background-image" src="{% static 'image/account1.png' %}"></img>
-                    </a>
-                  </li>
-                  <a style="font-size: 1.9em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:profile' %}">{{request.user.username|capfirst}}
-                  <li class="nav-item me-md-4">
-                  </li>
-                  <li class="nav-item me-md-0">
-                    <a href="{% url 'myapp:showcart' %}">
-                      <img class="background-image"src="{% static 'image/cart.png' %}"></img>
-                    </a>
-                  </li>
-                  <li class="nav-item me-md-4">
-                    <a href="{% url 'myapp:showcart' %}">
-                      <span class="badge bg-danger " style="border-radius: 1em;padding: 6.65px 8.65px;font-size: 1.2em;">{% block total_product %}{% endblock total_product %}</span>
-                    </a>
-                  </li>
-                  <li class="nav-item me-md-2">
-                    <a style="font-size: 1.9em;font-family: Nunito,sans-serif;color: #443e65;" href="{% url 'myapp:logout' %}">Logout</a>
-                  </li>
-                </li>
-            {% else %}
-
-            <li class="nav-item mx-2">
-              <a style="margin-left: 15rem!important;" href="{% url 'myapp:login' %}">Login</a>
-            </li>
-            <li class="nav-item mx-2">
-              <a style="margin-left: 3rem!important;" href="{% url 'myapp:customerregistration' %}">Register</a>
-            </li>
-            {% endif %}
-          </ul>     
-        </div>
-      </div>
-    </nav> {% endcomment %}
-
     {% block filter %}{% endblock filter %}
 
     {% block content %}{% endblock content %}
