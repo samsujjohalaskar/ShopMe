@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% load static %} 
+{% extends 'base.html' %} 
+{% load static %} 
 
 {% block title %}Home{% endblock title %}
 
@@ -100,8 +101,7 @@
     {% endblock filter %}
 
 {% block content %}
-{% comment %} <section class="text-gray-600 body-font"> {% endcomment %}
-  {% comment %} <div class="container px-4 py-0 mx-auto"  > {% endcomment %}
+
   <div style="margin-left: 50px;margin-right: 50px;padding-bottom: 70px;">  
     <div class="flex flex-wrap -m-4">
     {% for p in products %}
@@ -118,6 +118,5 @@
     {% endfor %}
     </div>
   </div>
-{% comment %} </section> {% endcomment %}
-{% endblock content %}
 
+{% endblock content %}

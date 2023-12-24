@@ -12,7 +12,12 @@ import random
 
 def home(request):
     # print("home called")
-    products = Product.objects.order_by('?')
+    # carousel_products = OrderPlaced.objects.order_by('?')
+    # carousel_products = list(OrderPlaced.objects.all())
+    # change 3 to how many random items you want
+    # random_carousel_items = random.sample(carousel_products, 10)
+
+    products = Product.objects.all()
     # cart = []
     total_product = 0
     # print("user is: ",request.user)
