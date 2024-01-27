@@ -9,6 +9,9 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 import random
+from functools import reduce
+import operator
+from django.core.paginator import Paginator
 
 def home(request):
     # print("home called")
@@ -20,17 +23,10 @@ def home(request):
     products = Product.objects.all()
     # cart = []
     total_product = 0
-    # print("user is: ",request.user)
-    if (str(request.user) != "AnonymousUser"):
-        # print("in if")
-        user=request.user
-        cart = Cart.objects.filter(user=user)
-        # print(cart, "cart")
-        # print(cart)
-        for x in cart:
-            # print("in loop")
-            # print(x)
-            total_product = total_product+1 
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user)
+        total_product = cart.count()
+        
     if request.method == "GET":
         print(" ")
     elif request.method == "POST":
@@ -111,13 +107,13 @@ def retrive_filter(filter_type, value):
 def retrive_price_filter(value):
     pass
 
-@login_required
 def productdetail(request,pk):
     product = Product.objects.get(pk=pk)
-    cart = Cart.objects.filter(user=request.user)
     total_product = 0
-    for x in cart:
-        total_product = total_product+1 
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user)
+        total_product = cart.count()
+        
     if request.method == "GET":
         productImages = productImage.objects.all().filter(product_id = pk)
         # print(productImages)
@@ -441,3 +437,77 @@ def product_search(request):
     else:
         return render (request,'product_search.html',{'content':content,'total_product':total_product})
 
+def categories(request):
+    total_product = 0
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user)
+        total_product = cart.count()
+    return render(request, 'categories.html', {'total_product': total_product})
+
+def products(request, category=None):
+    total_product = 0
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user)
+        total_product = cart.count()
+        
+    products = Product.objects.all()
+    if request.method == "GET":
+        category_filter = request.GET.getlist('category')
+        price_filter = request.GET.getlist('price')
+        brand_filter = request.GET.getlist('brand')
+
+        if category_filter:
+            category_ranges = {
+                '1': ("Clothing"),
+                '2': ("Electronics"),
+                '3': ("Food"),
+                '4': ("Grocery"),
+                '5': ("Stationary"),
+                '6': ("Footwear"),
+            }
+            if category_filter:
+                categories = [category_ranges[key] for key in category_filter]
+                products = products.filter(category__in=categories)
+            
+        if price_filter:
+            price_ranges = {
+                '0': (0,500),
+                '1': (501, 1000),
+                '2': (1001, 5000),
+                '3': (5001, 10000),
+                '4': (10001, float('inf'))
+            }
+            price_queries = [Q(price__range=price_ranges[key]) for key in price_filter]
+            products = products.filter(reduce(operator.or_, price_queries))
+            
+        if brand_filter:
+            brand_ranges = {
+                '1': ("Brand A"),
+                '2': ("Brand B"),
+                '3': ("Brand C"),
+                '4': ("Brand D"),
+            }
+            if brand_filter:
+                brands = [brand_ranges[key] for key in brand_filter]
+                products = products.filter(brand__in=brands)  
+                
+    paginator = Paginator(products, 8)  # Show 10 products per page
+    page_number = request.GET.get('page')
+    products_actual = paginator.get_page(page_number) 
+    
+    total_count = paginator.count
+    start_index = products_actual.start_index()
+    end_index = products_actual.end_index()
+        
+    context = {
+        'products': products_actual,
+        'start_index': start_index,
+        'end_index': end_index,
+        'total_count': total_count,
+        'total_product': total_product, #cart products for a logged in user
+        'category_filter': category_filter,  # Pass filter parameters to the template
+        'price_filter': price_filter,
+        'brand_filter': brand_filter,
+    }        
+            
+    return render(request, 'products.html', context)

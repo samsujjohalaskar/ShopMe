@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block title %}Categories{% endblock title %}
+
+{% block total_product %}
+{{total_product}}
+{% endblock total_product %}
+
+{% block content %}
+
+<div class="d-flex flex-wrap justify-center px-40 mt-20">
+    <div class="lg:max-w-xs min-w-80 group relative bg-white overflow-hidden rounded-lg m-3">
+        <img src="https://asset20.ckassets.com/blog/wp-content/uploads/sites/5/2021/12/Womens-Clothing.jpg" alt="Two models" class="h-full">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+          <h3 class="text-lg font-bold mb-2">
+            <a href="/products/?category=1" class="group-hover:underline">
+              Clothing
+            </a>
+          </h3>
+          <p class="text-sm">Shop now</p>
+        </div>
+    </div> 
+    <div class="lg:max-w-xs min-w-80 group relative bg-white overflow-hidden rounded-lg m-3">
+        <img src="https://www.polytechnichub.com/wp-content/uploads/2017/04/Electronic.jpg" alt="Electronics" class="h-full">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+          <h3 class="text-lg font-bold mb-2">
+            <a href="/products/?category=2" class="group-hover:underline">
+              Electronics
+            </a>
+          </h3>
+          <p class="text-sm">Shop now</p>
+        </div>
+    </div>
+    <div class="lg:max-w-xs min-w-80 group relative bg-white overflow-hidden rounded-lg m-3">
+        <img src="https://media.cnn.com/api/v1/images/stellar/prod/220831152409-01-ultraprocessed-foods.jpg?c=16x9&q=w_800,c_fill" alt="Food" class="h-full">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+          <h3 class="text-lg font-bold mb-2">
+            <a href="/products/?category=3" class="group-hover:underline">
+              Food
+            </a>
+          </h3>
+          <p class="text-sm">Shop now</p>
+        </div>
+    </div>
+    <div class="lg:max-w-xs min-w-80 group relative bg-white overflow-hidden rounded-lg m-3">
+        <img src="https://5.imimg.com/data5/MG/FQ/SA/SELLER-283756/all-fmcg-grocery-products-500x500.jpg" alt="Grocery" class="h-full">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+          <h3 class="text-lg font-bold mb-2">
+            <a href="/products/?category=4" class="group-hover:underline">
+              Grocery
+            </a>
+          </h3>
+          <p class="text-sm">Shop now</p>
+        </div>
+    </div>
+    <div class="lg:max-w-xs min-w-80 group relative bg-white overflow-hidden rounded-lg m-3">
+        <img src="https://m.media-amazon.com/images/I/61MsoKC8xNL._AC_UF1000,1000_QL80_.jpg" alt="Stationary" class="h-full">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+          <h3 class="text-lg font-bold mb-2">
+            <a href="/products/?category=5" class="group-hover:underline">
+              Stationary
+            </a>
+          </h3>
+          <p class="text-sm">Shop now</p>
+        </div>
+    </div>
+    <div class="lg:max-w-xs min-w-80 group relative bg-white overflow-hidden rounded-lg m-3">
+        <img src="https://images.hindustantimes.com/img/2022/12/22/550x309/istockphoto-1279108197-170667a_1671687926903_1671687937504_1671687937504.jpg" alt="Footwear" class="h-full">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+          <h3 class="text-lg font-bold mb-2">
+            <a href="/products/?category=6" class="group-hover:underline">
+              Footwear
+            </a>
+          </h3>
+          <p class="text-sm">Shop now</p>
+        </div>
+    </div>
+    <div class="lg:max-w-xs min-w-80 group relative bg-white overflow-hidden rounded-lg m-3">
+        <img src="https://blog.wholesalefashionsquare.com/wp-content/uploads/2022/01/11-Reasons-to-Buy-From-Wholesale-Clothing-Vendors-in-USA-e1642036492441.jpg" alt="Two models" class="h-full">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+          <h3 class="text-lg font-bold mb-2">
+            <a href="/products/?category=1&category=6" class="group-hover:underline">
+              New Arrivals
+            </a>
+          </h3>
+          <p class="text-sm">Shop now</p>
+        </div>
+    </div>
+</div>
+
+<div class="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+      <div class="max-w-xl lg:max-w-lg">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Subscribe to our Newsletter.</h2>
+        <p class="mt-4 text-lg text-gray-400 leading-8">Stay updated with our latest news and offers by subscribing to our newsletter. Receive exclusive discounts and promotions directly in your inbox. Don't miss out!</p>
+          <form action="#" method="post">
+            <div class="mt-6 flex max-w-md gap-x-4">
+              <input id="email-address" name="email" type="email" autocomplete="email" required class="outline-none min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Enter your email">
+              <button type="submit" class="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Subscribe</button>
+            </div>
+          </form>
+      </div>
+      <dl class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
+        <div class="flex flex-col items-start">
+          <div class="rounded-md p-2 ring-1">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+            </svg>
+          </div>
+          <dt class="mt-4 font-semibold">Weekly articles</dt>
+          <dd class="mt-2 leading-7 text-gray-400">Explore our weekly articles covering a variety of topics. From industry insights to product updates, we've got you covered.</dd>
+        </div>
+        <div class="flex flex-col items-start">
+          <div class="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 013.15 0V15M6.9 7.575a1.575 1.575 0 10-3.15 0v8.175a6.75 6.75 0 006.75 6.75h2.018a5.25 5.25 0 003.712-1.538l1.732-1.732a5.25 5.25 0 001.538-3.712l.003-2.024a.668.668 0 01.198-.471 1.575 1.575 0 10-2.228-2.228 3.818 3.818 0 00-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0116.35 15m.002 0h-.002" />
+            </svg>
+          </div>
+          <dt class="mt-4 font-semibold">No spam</dt>
+          <dd class="mt-2 leading-7 text-gray-400">We promise not to spam your inbox. Enjoy relevant updates and information without the hassle of unwanted emails. Your privacy is important to us.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -23,7 +23,7 @@
 {% endblock total_product %}
 
     {% block filter %}
-    <section class="text-gray-600 body-font" style="margin-top: 50px;">
+    {% comment %} <section class="text-gray-600 body-font" style="margin-top: 50px;">
       <div class="container px-5 py-5 mx-auto">
 
         <form class="row g-3" action="/" method="post">
@@ -54,29 +54,6 @@
                 <option value="4">Brand D</option>
               </select>
             </div>
-            {% comment %} <div class="col-auto">
-              <label for="average_review" class="col-form-label">Average Customer Review</label>
-            </div>
-            <div class="col-auto">
-              <select id="inputState" class="form-select" >
-                <option>1</option>
-                <option>2</option>
-                <option selected>3</option>
-                <option>4</option>
-              </select>
-            </div> {% endcomment %}
-            {% comment %} <div class="col-auto">
-              <label for="discount" class="col-form-label">Product Discount (%)</label>
-            </div>
-            <div class="col-auto">
-              <select id="inputState" class="form-select" name="discount_filter">
-                <option value="0" selected>All</option>
-                <option value="1" >10</option>
-                <option value="2">20</option>
-                <option value="3">30</option>
-                <option value="4">30 above</option>
-              </select>
-            </div> {% endcomment %}
             <div class="col-auto">
               <label for="c_category" class="col-form-label">Choose Category</label>
             </div>
@@ -97,15 +74,252 @@
           </div>          
         </form>
       </div>
-    </section>
+    </section> {% endcomment %}
     {% endblock filter %}
 
 {% block content %}
 
-  <div style="margin-left: 50px;margin-right: 50px;padding-bottom: 70px;">  
+<div class="container col-xxl-8 px-4 py-2">
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6">
+      <img src="{% static "image/hero.jpg" %}" class="d-block mx-lg-auto img-fluid rounded-lg" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+    </div>
+    <div class="col-lg-6">
+      <h1 class="display-5 fw-bold lh-1 mb-3">Discover Trendy Products at Your Fingertips</h1>
+      <p>Explore our curated collection of high-quality products and enjoy a seamless shopping experience. Our website is built with the latest technologies, ensuring a responsive and user-friendly design. Find unique items, from fashion to electronics, and indulge in the convenience of secure online shopping with our trusted e-commerce platform.</p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
+        {% if request.user.is_authenticated %}
+          <a type="button" class="btn btn-primary btn-lg px-4 me-md-2" href="{% url 'myapp:products' %}">Explore</a>
+        {% else %}
+          <a type="button" class="btn btn-primary btn-lg px-4 me-md-2" href="{% url 'myapp:login' %}">Login</a>
+          <a type="button" class="btn btn-outline-primary btn-lg px-4" href="{% url 'myapp:customerregistration' %}">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-6">
+  <div class="flex flex-col lg:flex-row items-stretch lg:space-x-6 justify-content-center">
+    <!-- Category Block 1 -->
+    <div class="flex-1 lg:max-w-xs group relative bg-white overflow-hidden rounded-lg shadow-md mt-12">
+      <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-featured-category.jpg" alt="Two models" class="h-full w-full object-cover object-center">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+        <h3 class="text-lg font-bold mb-2">
+          <a href="/products/?category=1" class="group-hover:underline">
+            Clothing
+          </a>
+        </h3>
+        <p class="text-sm">Shop now</p>
+      </div>
+    </div>
+
+    <!-- Category Block 2 -->
+    <div class="flex-1 lg:max-w-xs group relative bg-white overflow-hidden rounded-lg shadow-md mb-4 lg:mb-0 mt-4">
+      <img src="https://www.adorama.com/alc/wp-content/uploads/2018/02/BBBURGER8-1024x683.jpg" alt="Wooden shelf." class="h-full w-full object-cover object-center">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+        <h3 class="text-lg font-bold mb-2">
+          <a href="/products/?category=3" class="group-hover:underline">
+            Food
+          </a>
+        </h3>
+        <p class="text-sm">Shop now</p>
+      </div>
+    </div>
+
+    <!-- Category Block 3 -->
+    <div class="flex-1 lg:max-w-xs group relative bg-white overflow-hidden rounded-lg shadow-md">
+      <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-category-02.jpg" alt="Walnut desk" class="h-full w-full object-cover object-center">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+        <h3 class="text-lg font-bold mb-2">
+          <a href="/products/?category=2" class="group-hover:underline">
+            Electronics
+          </a>
+        </h3>
+        <p class="text-sm">Shop now</p>
+      </div>
+    </div>
+
+    <!-- Category Block 4 -->
+    <div class="flex-1 lg:max-w-xs group relative bg-white overflow-hidden rounded-lg shadow-md mb-4 lg:mb-0 mt-4">
+      <img src="https://tailwindui.com/img/ecommerce-images/home-page-01-collection-01.jpg" alt="Wooden shelf." class="h-full w-full object-cover object-center">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+        <h3 class="text-lg font-bold mb-2">
+          <a href="/products/?category=5" class="group-hover:underline">
+            Stationary
+          </a>
+        </h3>
+        <p class="text-sm">Shop now</p>
+      </div>
+    </div>
+
+    <!-- Category Block 5 -->
+    <div class="flex-1 lg:max-w-xs group relative bg-white overflow-hidden rounded-lg shadow-md mt-12">
+      <img src="https://cityfurnish.com/blog/wp-content/uploads/2023/08/healthy-positive-happy-woman-holding-paper-shopping-bag-full-fruit-vegetables-min-1200x900.jpg" alt="Two models" class="h-full w-full object-cover object-center">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="absolute inset-0 flex items-center justify-center flex-col text-white">
+        <h3 class="text-lg font-bold mb-2">
+          <a href="/products/?category=4" class="group-hover:underline">
+            Grocery
+          </a>
+        </h3>
+        <p class="text-sm">Shop now</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Browse all categories link -->
+  <div class="text-center mt-6">
+    <a href="{% url 'myapp:categories' %}" class="text-blue-500 hover:underline">
+      Browse all categories
+      <span aria-hidden="true"> →</span>
+    </a>
+  </div>
+</div>
+
+<div class="relative overflow-hidden mt-5">
+  <div class="pb-80 pt-16 sm:pb-40 sm:pt-24 lg:pb-48 lg:pt-40">
+    <div class="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
+      <div class="sm:max-w-lg">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Summer styles are finally here</h1>
+        <p class="mt-4 text-xl text-gray-500">This year, our new summer collection will shelter you from the harsh elements of a world that doesn't care if you live or die.</p>
+      </div>
+      <div>
+        <div class="mt-10">
+          <!-- Decorative image grid -->
+          <div aria-hidden="true" class="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl">
+            <div class="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
+              <div class="flex items-center space-x-6 lg:space-x-8">
+                <div class="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                  <div class="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </div>
+                  <div class="h-64 w-44 overflow-hidden rounded-lg">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-02.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </div>
+                </div>
+                <div class="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                  <div class="h-64 w-44 overflow-hidden rounded-lg">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-07.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </div>
+                  <div class="h-64 w-44 overflow-hidden rounded-lg">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-04.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </div>
+                  <div class="h-64 w-44 overflow-hidden rounded-lg">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-05.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </div>
+                </div>
+                <div class="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                  <div class="h-64 w-44 overflow-hidden rounded-lg">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-06.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </div>
+                  <div class="h-64 w-44 overflow-hidden rounded-lg">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-03.jpg" alt="" class="h-full w-full object-cover object-center">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="/products/?category=1" class="btn btn-primary btn-lg px-4 me-md-2">Shop Now!</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="mt-5">
+  <div class="mx-auto max-w-7xl px-4">
+    <div class="mx-auto max-w-2xl lg:max-w-none">
+      <h2 class="text-2xl font-bold text-gray-900">Collections</h2>
+
+      <div class="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
+        <div class="group relative">
+          <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+            <img src="https://devicenext.com/wp-content/uploads/2021/12/Save-Big-on-the-Top-8-Home-Appliances-on-Amazon.in_.jpg" alt=" Home Appliances" class="h-full w-full object-cover object-center">
+          </div>
+          <h3 class="mt-6 text-sm text-gray-500">
+            <a href="/products/?category=2&category=5">
+              <span class="absolute inset-0"></span>
+              Home Appliances
+            </a>
+          </h3>
+          <p class="text-base font-semibold text-gray-900">Work from home accessories</p>
+        </div>
+        <div class="group relative">
+          <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+            <img src="https://assets.vogue.com/photos/5891face153ededd21da5653/16:9/w_1280,c_limit/00-holding-the-kitchen-shelf-book-pantry-staples.jpg" alt="Pantry Essentials" class="h-full w-full object-cover object-center">
+          </div>
+          <h3 class="mt-6 text-sm text-gray-500">
+            <a href="/products/?category=3&category=4">
+              <span class="absolute inset-0"></span>
+              Pantry Essentials
+            </a>
+          </h3>
+          <p class="text-base font-semibold text-gray-900">Daily household products</p>
+        </div>
+        <div class="group relative">
+          <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+            <img src="https://i.pinimg.com/736x/dc/d3/f1/dcd3f105a9d5b8265d4afca43d128906.jpg" alt="New Arrivals" class="h-full w-full object-cover object-center">
+          </div>
+          <h3 class="mt-6 text-sm text-gray-500">
+            <a href="/products/?category=1&category=6">
+              <span class="absolute inset-0"></span>
+              Fashion & Apparels
+            </a>
+          </h3>
+          <p class="text-base font-semibold text-gray-900">New in the Market</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+      <div class="max-w-xl lg:max-w-lg">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Subscribe to our Newsletter.</h2>
+        <p class="mt-4 text-lg text-gray-400 leading-8">Stay updated with our latest news and offers by subscribing to our newsletter. Receive exclusive discounts and promotions directly in your inbox. Don't miss out!</p>
+          <form action="#" method="post">
+            <div class="mt-6 flex max-w-md gap-x-4">
+              <input id="email-address" name="email" type="email" autocomplete="email" required class="outline-none min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Enter your email">
+              <button type="submit" class="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Subscribe</button>
+            </div>
+          </form>
+      </div>
+      <dl class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
+        <div class="flex flex-col items-start">
+          <div class="rounded-md p-2 ring-1">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+            </svg>
+          </div>
+          <dt class="mt-4 font-semibold">Weekly articles</dt>
+          <dd class="mt-2 leading-7 text-gray-400">Explore our weekly articles covering a variety of topics. From industry insights to product updates, we've got you covered.</dd>
+        </div>
+        <div class="flex flex-col items-start">
+          <div class="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 013.15 0V15M6.9 7.575a1.575 1.575 0 10-3.15 0v8.175a6.75 6.75 0 006.75 6.75h2.018a5.25 5.25 0 003.712-1.538l1.732-1.732a5.25 5.25 0 001.538-3.712l.003-2.024a.668.668 0 01.198-.471 1.575 1.575 0 10-2.228-2.228 3.818 3.818 0 00-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0116.35 15m.002 0h-.002" />
+            </svg>
+          </div>
+          <dt class="mt-4 font-semibold">No spam</dt>
+          <dd class="mt-2 leading-7 text-gray-400">We promise not to spam your inbox. Enjoy relevant updates and information without the hassle of unwanted emails. Your privacy is important to us.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>
+
+  {% comment %} <div style="margin-left: 50px;margin-right: 50px;padding-bottom: 70px;">  
     <div class="flex flex-wrap -m-4">
     {% for p in products %}
-      <div  class="lg:w-1/6 md:w-1/2 p-4 w-full" style="box-shadow: 0 0 1rem rgba(0,0,0,0.5)!important; margin:30px;background-color: #FAFAFA;border-radius: 5px;">
+      <div  class="lg:w-1/6 md:w-1/2 p-4 w-full border m-3 bg-white rounded">
         <a href="{% url 'myapp:productdetail' p.id %}" class="block relative h-48 rounded overflow-hidden">
             <img alt="{{p.name}}" class="object-cover object-center w-full h-full block" src="{{ p.images_url }}">
         </a>
@@ -117,6 +331,6 @@
       </div>
     {% endfor %}
     </div>
-  </div>
+  </div> {% endcomment %}
 
 {% endblock content %}
