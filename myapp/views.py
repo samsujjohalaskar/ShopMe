@@ -511,3 +511,10 @@ def products(request, category=None):
     }        
             
     return render(request, 'products.html', context)
+
+def about(request):
+    total_product = 0
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user)
+        total_product = cart.count()
+    return render(request, 'about.html', {'total_product': total_product})
