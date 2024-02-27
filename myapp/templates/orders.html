@@ -20,12 +20,11 @@
             <li class="d-grid"><a href="{% url 'myapp:helpsupport' %}" class="btn">Help & Support</a></li>
         </ul>
         </div>
-        <div class="col-sm-8 offset-sm-1">
-           {% for order in order %}
+        <div class="col-sm-8 ml-2">
+            {% for order in page_obj %}
             <div class="row">
-                <h3 class = "fs-5 fw-bold">Order {{forloop.counter}}</h3>
                 <small>{{order.date_ordered}}</small></br>
-                <br>
+                <hr>
                 <br>
                 <a class="col-sm-2 text-center align-self-center" href="{% url 'myapp:productdetail' order.product.id%}">
                     <img src="{{order.product.images.url}}" alt="" class="img-fluid img-thumbnail shadow-sm" srcset="" height="130" width="130">
@@ -41,9 +40,22 @@
                 </div>
             </div>
           <br>
-          <hr>
-          <br>
           {% endfor %}
+          <div class="pagination">
+            <span>
+                {% if page_obj.has_previous %}
+                    <a class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
+                {% endif %}
+        
+                {% if page_obj.has_next %}
+                    <a class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+            </span>
+          </div>
             <div class="container my-5">
                 <div class="row">
                     <h3 class="text-center">{{content}}</h3>
@@ -53,12 +65,3 @@
     </div>
 </div>
 {% endblock content %}
-<div class="row shadow-sm mb-3">
-    <div class="col-sm-2">
-        <img src="{{order.product.images.url}}" alt="" class="img-fluid" srcset="" height="100" width="100">
-    </div>    
-    <div class="col-sm-2">
-        <p>Product : {{order.product.name}}</p>
-        <p>Quantity : {{order.quantity}}</p>
-        <p>Price : {{order.totalamount}}</p>
-    </div>

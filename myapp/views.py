@@ -424,16 +424,20 @@ def payment_done(request):
 def order_done(request):
     user = request.user
     cart = Cart.objects.filter(user=user)
-    content = "You haven't Ordered Any Product Yet. "
-    total_product = 0
-    for x in cart:
-        total_product = total_product+1
-    order = OrderPlaced.objects.filter(user = user)
-    if order:
-        return render (request,'orders.html',{'order':order,'total_product':total_product})
-    else:
-        return render (request,'orders.html',{'order':order,'total_product':total_product,'content':content})
+    content = "You haven't Ordered Any Product Yet."
+    total_product = cart.count()
+    
+    order_list = OrderPlaced.objects.filter(user=user).order_by('-date_ordered')
+    paginator = Paginator(order_list, 5)
 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    if order_list.exists():
+        return render(request, 'orders.html', {'page_obj': page_obj, 'total_product': total_product})
+    else:
+        return render(request, 'orders.html', {'content': content, 'total_product': total_product})
+    
 @login_required
 def product_search(request):
     query = request.GET['query']
