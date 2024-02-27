@@ -11,7 +11,7 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['id','user','product','product_info','quantity']
+    list_display = ['id','user','product','product_info','quantity','payment_status','razor_pay_order_id']
     
     def product_info(self,obj):
         link = reverse("admin:myapp_product_change",args=[obj.product.pk])
@@ -23,7 +23,7 @@ class reportAdmin(admin.ModelAdmin):
 
 @admin.register(OrderPlaced)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['id','user','customer_id','customer_info','product_id','product_info','quantity','date_ordered']    
+    list_display = ['id','user','customer_id','customer_info','product_id','product_info','quantity','date_ordered','payment_status','razor_pay_order_id','razor_pay_payment_id','razor_pay_payment_signature']    
 
     def customer_info(self,obj):
         link = reverse("admin:myapp_customer_change",args=[obj.customer.pk])

@@ -42,7 +42,8 @@
   <div class="col-sm-4 offset-sm-1">
     <h4 class="fw-bold fs-5" style="margin-top: 50px !important;">Select Shipping Address :</h4>
     <br>
-    <form action="/paymentdone" style="margin-bottom: 80px; !important">
+    {% comment %} <form action="/paymentdone" style="margin-bottom: 80px; !important"> {% endcomment %}
+    <form style="margin-bottom: 80px; !important">
       {% for ad in add %}  
       <div class="card">
         <div class="card-body">
@@ -51,7 +52,7 @@
         </div>
       </div>
       <div class="form-check mt-2 mb-5">
-        <input class="form-check-input" type="radio" name="cust_id" id="custadd{{forloop.counter}}" value="{{ad.id}}" required="required">
+        <input class="form-check-input" type="radio" name="cust_id" id="custadd{{forloop.counter}}" value="{{ad.id}}" required>
         <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
           Address Line {{forloop.counter}}</label>
         </div>
@@ -67,11 +68,56 @@
           </div>
         {% else %}
           <div class="text-end">
-            <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
+            <button id="rzp-button1" type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
           </div>
         {% endif %}
       </form>
     </div>
   </div>
 </div>
+
+{% block JS %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var options = {
+      "key": "RAZOR_KEY", 
+      "amount": "{{payment.amount}}", 
+      "currency": "INR",
+      "name": "Shopme",
+      "description": "Purchase",
+      "image": "{% static 'image/online-shop.png' %}",
+      "order_id": "{{payment.id}}", 
+      "handler": function (response){
+        alert("Payment Successful")
+        var razorpay_payment_id = response.razorpay_payment_id;
+        var razorpay_order_id = response.razorpay_order_id;
+        var razorpay_signature = response.razorpay_signature;
+        
+        var cust_id = document.querySelector('input[name="cust_id"]:checked').value;
+        
+        window.location.href = "/paymentdone?razorpay_payment_id=" + razorpay_payment_id +
+                               "&razorpay_order_id=" + razorpay_order_id +
+                               "&razorpay_signature=" + razorpay_signature +
+                               "&cust_id=" + cust_id;
+      },
+      "theme": {
+          "color": "#0d6efd;"
+      }
+  };
+  var rzp1 = new Razorpay(options);
+  rzp1.on('payment.failed', function (response){
+          alert("Payment Failed");
+          window.location.href = "/cart"
+  });
+  document.getElementById('rzp-button1').onclick = function(e){
+      if (!document.querySelector('input[name="cust_id"]:checked')) {
+        alert('Please select a shipping address.');
+        e.preventDefault();
+      } else {
+        rzp1.open();
+        e.preventDefault();
+      }
+  }
+  </script>
+{% endblock JS %}
 {% endblock content %}

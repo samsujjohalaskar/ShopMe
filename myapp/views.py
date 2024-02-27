@@ -12,6 +12,8 @@ import random
 from functools import reduce
 import operator
 from django.core.paginator import Paginator
+import razorpay
+from django.conf import settings
 
 def home(request):
     # print("home called")
@@ -365,8 +367,14 @@ def place_order(request):
             for p in cart_product:
                 temp_amount = (p.quantity * p.product.discounted_price)
                 amount += temp_amount  
-            totalamount = amount + shipping_amount    
-        return render(request, 'checkout.html', {'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,'total_product':total_product})
+            totalamount = amount + shipping_amount   
+        client = razorpay.Client(auth = (settings.KEY, settings.TEST))
+        payment = client.order.create({'amount' : totalamount * 100, 'currency' : 'INR', 'payment_capture' : 1})
+        for cart in cart:
+            cart.razor_pay_order_id = payment['id']
+            cart.payment_status = payment['status']
+            cart.save()     
+        return render(request, 'checkout.html', {'payment' : payment, 'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,'total_product':total_product})
     return render(request, 'checkout.html', {'content':content,'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,'total_product':total_product})
 
 
@@ -394,7 +402,7 @@ def buy_now(request):
                     temp_amount = (p.quantity * p.product.discounted_price)
                     amount += temp_amount  
                 totalamount = amount + shipping_amount    
-            return render(request, 'checkout.html', {'add' : add, 'totalamount' : totalamount, 'cart_items':cart_items,'total_product':total_product})
+            return redirect('/placeorder/')
         else:
             return redirect('/placeorder/') 
 
@@ -402,10 +410,13 @@ def buy_now(request):
 def payment_done(request):
     user = request.user
     cust_id = request.GET.get('cust_id')
+    razorpay_payment_id = request.GET.get('razorpay_payment_id')
+    razorpay_order_id = request.GET.get('razorpay_order_id')
+    razorpay_signature = request.GET.get('razorpay_signature')
     customer = Customer.objects.get(id=cust_id)
     cart = Cart.objects.filter(user=user)
     for c in cart:
-        OrderPlaced(user=user,customer = customer,product = c.product, quantity = c.quantity).save()
+        OrderPlaced(user=user,customer = customer,product = c.product, quantity = c.quantity,razor_pay_order_id = razorpay_order_id, razor_pay_payment_id = razorpay_payment_id, razor_pay_payment_signature = razorpay_signature, payment_status = "succes").save()
         c.delete()
     return redirect('/orders/')    
 

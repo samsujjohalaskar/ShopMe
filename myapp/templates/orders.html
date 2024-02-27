@@ -24,6 +24,7 @@
            {% for order in order %}
             <div class="row">
                 <h3 class = "fs-5 fw-bold">Order {{forloop.counter}}</h3>
+                <small>{{order.date_ordered}}</small></br>
                 <br>
                 <br>
                 <a class="col-sm-2 text-center align-self-center" href="{% url 'myapp:productdetail' order.product.id%}">
@@ -34,7 +35,8 @@
                         <p>Product : {{order.product.name}}</p>
                         <p>Quantity : {{order.quantity}}</p>
                         <p>Price : {{order.price}}</p>
-                        <p>Dated : {{order.date_ordered}}</p>
+                        <small>Order ID : {{order.razor_pay_order_id}}</small></br>
+                        <small>Transaction ID : {{order.razor_pay_payment_id}}</small></br>
                     </div>
                 </div>
             </div>

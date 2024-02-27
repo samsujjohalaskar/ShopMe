@@ -24,7 +24,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-y1r0f9%hbbf2+_s-y$q8ehg7-eji+f=itq7bh%lrej@@y$5bl9'
+SECRET_KEY = 'SECRET_KEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'Shopme.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ShopMeDB',
-        'USER':'postgres',
-        'PASSWORD':'mypassword',
+        'NAME': 'DATABASE_NAME',
+        'USER':'DATABASE_USER',
+        'PASSWORD':'DATABASE_PASSWORD',
         'HOST':'localhost',
         'PORT':'5432',
     }
@@ -147,3 +147,6 @@ EMAIL_HOST_PASSWORD = ''
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
+KEY = "RAZOR_KEY"
+TEST = "RAZOR_TEST"
