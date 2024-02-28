@@ -88,18 +88,35 @@
         </div>
         <!-- Products Section -->
         <div class="col-md-9">
-            <div class="flex flex-wrap ml-5 mt-3">
+            <div class="flex flex-wrap mt-4">
                 {% if products %}
                     {% for p in products %}
-                    <div class="card w-80 border m-2 bg-white rounded">
-                        <div class="p-3">
-                            <a href="{% url 'myapp:productdetail' p.id %}" class="block relative h-48 rounded overflow-hidden">
+                    <div class="card w-40 border bg-white rounded">
+                        <div class="">
+                            <a href="{% url 'myapp:productdetail' p.id %}" class="block relative h-48 rounded-top overflow-hidden">
                                 <img alt="{{p.name}}" class="object-cover object-center w-full h-full block" src="{{ p.images_url }}">
                             </a>
-                            <div class="mt-4">
+                            <div class="mt-4 p-2">
                                 <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{p.category}} | {{p.brand}}</h3>
-                                <h2 class="text-gray-900 title-font text-lg font-medium">{{p.name}} <span class="float-end">{{p.get_rating|floatformat:1}}/5</span></h2>
-                                <p class="mt-1"><h3 class="text-decoration-line-through">₹ {{p.price}}</b></h3><h3> <b>Now only at ₹ {{p.discounted_price}}</b></h3></p>
+                                <h2 class="text-gray-900 title-font text-lg font-medium">{{p.name |truncatechars:16}}</h2>
+                                <p class="mt-1">
+                                    <span class="fw-bold text-success">Flat {{p.discount_percentage}}% Off</span>
+                                </p>
+                                <span class="text-secondary text-decoration-line-through">{{p.price}}</span>
+                                <span><b>₹ {{p.discounted_price}}</b></span>
+                                <p class="text-warning h5">
+                                    {% if p.get_rating >= 4.5 %}
+                                        ★★★★★
+                                    {% elif p.get_rating >= 3.5 %}
+                                        ★★★★☆
+                                    {% elif p.get_rating >= 2.5 %}
+                                        ★★★☆☆
+                                    {% elif p.get_rating >= 1.5 %}
+                                        ★★☆☆☆
+                                    {% else %}
+                                        ★☆☆☆☆
+                                    {% endif %}
+                                </p>
                             </div>
                         </div>
                     </div>

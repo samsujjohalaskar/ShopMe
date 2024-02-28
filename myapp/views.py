@@ -506,7 +506,7 @@ def products(request, category=None):
                 brands = [brand_ranges[key] for key in brand_filter]
                 products = products.filter(brand__in=brands)  
                 
-    paginator = Paginator(products, 8)  # Show 10 products per page
+    paginator = Paginator(products, 20)  # Show 10 products per page
     page_number = request.GET.get('page')
     products_actual = paginator.get_page(page_number) 
     
