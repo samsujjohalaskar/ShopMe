@@ -91,12 +91,12 @@
             <div class="flex flex-wrap mt-4">
                 {% if products %}
                     {% for p in products %}
-                    <div class="card w-40 border bg-white rounded">
+                    <div class="card border bg-white rounded" style="width: 175px;">
                         <div class="">
                             <a href="{% url 'myapp:productdetail' p.id %}" class="block relative h-48 rounded-top overflow-hidden">
                                 <img alt="{{p.name}}" class="object-cover object-center w-full h-full block" src="{{ p.images_url }}">
                             </a>
-                            <div class="mt-4 p-2">
+                            <div class="pl-2 pt-2">
                                 <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{p.category}} | {{p.brand}}</h3>
                                 <h2 class="text-gray-900 title-font text-lg font-medium">{{p.name |truncatechars:16}}</h2>
                                 <p class="mt-1">
