@@ -87,11 +87,11 @@
             </form>
         </div>
         <!-- Products Section -->
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="flex flex-wrap mt-4">
                 {% if products %}
                     {% for p in products %}
-                    <div class="card border bg-white rounded" style="width: 175px;">
+                    <div class="card border bg-white rounded" style="width: 184px;">
                         <div class="">
                             <a href="{% url 'myapp:productdetail' p.id %}" class="block relative h-48 rounded-top overflow-hidden">
                                 <img alt="{{p.name}}" class="object-cover object-center w-full h-full block" src="{{ p.images_url }}">
